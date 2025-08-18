@@ -20,11 +20,11 @@ import java.util.List;
 
 public class BlockBreakListener implements Listener
 {
-    private final CEnchants api;
+    private final CEnchants plugin;
 
     public BlockBreakListener(CEnchants plugin)
     {
-        this.api = plugin;
+        this.plugin = plugin;
     }
 
     @EventHandler
@@ -35,12 +35,13 @@ public class BlockBreakListener implements Listener
         final Block block = event.getBlock();
         final ItemStack tool = player.getInventory().getItemInMainHand();
 
-        if (tool.getItemMeta() == null || tool.getType() == Material.AIR || !tool.hasItemMeta() || tool.getType().isEmpty()) return;
+        if (tool.getItemMeta() == null || tool.getType() == Material.AIR || !tool.hasItemMeta() || tool.getType().isEmpty())
+            return;
 
         final BlockBreakContext context = new BlockBreakContext(player, block, tool);
         saveDrops(context, tool);
 
-        final List<Enchant<?>> enchants = api.getStorage().getAll(tool);
+        final List<Enchant<?>> enchants = plugin.getStorage().getAll(tool);
 
         enchants.sort(Comparator.comparingInt(Enchant::getPriority));
 
@@ -52,7 +53,6 @@ public class BlockBreakListener implements Listener
         int blockCount = context.getAffectedBlocks().size();
 
         DurabilityOptions.damageItem(player, tool, blockCount);
-        System.out.println("damage " + context.getBlockCount());
 
         event.setDropItems(false);
         event.setCancelled(true);
@@ -72,8 +72,9 @@ public class BlockBreakListener implements Listener
         context.getDrops().addAll(dropToAdd);
     }
 
-    private void breakAllBlocks(BlockBreakContext context) {
-        for (Block affected: context.getAffectedBlocks()) {
+    private void breakAllBlocks(BlockBreakContext context)
+    {
+        for (Block affected : context.getAffectedBlocks()) {
             if (BlockUtil.getUnbreakable().contains(affected.getType())) continue;
 
             BlockUtil.spawnBreakParticle(affected);

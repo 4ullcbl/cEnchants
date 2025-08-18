@@ -98,11 +98,6 @@ public class BlockUtil
         );
     }
 
-    public static List<Material> getUnbreakable()
-    {
-        return UNBREAKABLE;
-    }
-
     /**
      * Находит ближайшие руды схожие с добытой
      *
@@ -142,5 +137,13 @@ public class BlockUtil
         visited.remove(start);
 
         return new ArrayList<>(visited);
+    }
+
+    public static List<Material> getOres() {
+        return ORES;
+    }
+
+    public static List<Material> getUnbreakable() {
+        return UNBREAKABLE;
     }
 }

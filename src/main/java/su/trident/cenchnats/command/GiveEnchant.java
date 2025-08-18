@@ -1,14 +1,22 @@
 package su.trident.cenchnats.command;
 
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import su.trident.cenchnats.CEnchants;
+import su.trident.cenchnats.enchant.api.Enchant;
 
-public class GiveEnchant implements CommandExecutor
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class GiveEnchant implements CommandExecutor, TabExecutor
 {
     private final CEnchants plugin;
 
@@ -24,16 +32,38 @@ public class GiveEnchant implements CommandExecutor
 
         final ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (args[0].equals("BULLDOZER"))
-            plugin.getStorage().addEnchantSave(item, plugin.getRegister().getBulldozer(), 1);
-        if (args[0].equals("MAGNET"))
-            plugin.getStorage().addEnchantSave(item, plugin.getRegister().getMagnet(), 1);
-        if (args[0].equals("MELTING"))
-            plugin.getStorage().addEnchantSave(item, plugin.getRegister().getMelting(), 1);
-        if (args[0].equals("PING"))
-            plugin.getStorage().addEnchantSave(item, plugin.getRegister().getPinger(), 1);
-        if (args[0].equals("WEB"))
-            plugin.getStorage().addEnchantSave(item, plugin.getRegister().getWeb(), 1);
+        final String arg = args[0];
+
+        try {
+            final int lvl = Integer.parseInt(args[1]);
+
+            for (String key: Enchant.keySet()) {
+                if (Objects.equals(key, arg)) {
+                    plugin.getStorage().addEnchant(item, Enchant.getByKey(key), lvl);
+                }
+            }
+
+            player.sendMessage("Вы зачаровали предмет в руке!");
+            player.playSound(player.getEyeLocation(), Sound.ENTITY_VILLAGER_YES, 1, 1);
+            return true;
+        } catch (Exception e) {
+            player.sendMessage("usage: /ench <type> <level>");
+            player.playSound(player.getEyeLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
+        }
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args)
+    {
+        final List<String> tab = new ArrayList<>();
+
+        if (args.length == 1) {
+            tab.addAll(Enchant.keySet());
+        } else if (args.length == 2) {
+            tab.add("[<level>]");
+        }
+
+        return tab;
     }
 }

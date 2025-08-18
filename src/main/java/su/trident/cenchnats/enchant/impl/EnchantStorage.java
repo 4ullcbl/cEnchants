@@ -91,7 +91,7 @@ public class EnchantStorage implements EnchantStorageAPI
 
         if (itemStack == null || itemStack.getItemMeta() == null) return enchants;
 
-        for (Enchant<?> e : Enchant.getByKey().values()) {
+        for (Enchant<?> e : Enchant.getKeys().values()) {
             if (itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(e.getPlugin(), e.getKey()), PersistentDataType.INTEGER))
                 enchants.add(e);
         }

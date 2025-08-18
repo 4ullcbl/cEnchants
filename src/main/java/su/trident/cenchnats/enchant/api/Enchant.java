@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public abstract class Enchant<T extends Event> implements Listener
 {
@@ -26,7 +27,15 @@ public abstract class Enchant<T extends Event> implements Listener
 
     private static final Map<String, Enchant<?>> byKey = new HashMap<>();
 
-    public static Map<String, Enchant<?>> getByKey() {
+    public static Enchant<?> getByKey(String key) {
+        return byKey.get(key);
+    }
+
+    public static Set<String> keySet() {
+        return byKey.keySet();
+    }
+
+    public static Map<String, Enchant<?>> getKeys() {
         return byKey;
     }
 

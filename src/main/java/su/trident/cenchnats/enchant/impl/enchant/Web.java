@@ -16,30 +16,27 @@ import java.util.List;
 
 public class Web extends Enchant<BlockBreakEvent> implements BlockBreakableEnchant
 {
-
-    public static boolean IS_WEB = false;
     private final String key;
-    private final CEnchants api;
+    private final CEnchants plugin;
 
     public Web(String key, CEnchants plugin)
     {
         super(key, plugin);
         this.key = key;
-        this.api = plugin;
+        this.plugin = plugin;
     }
 
     @Override
     public void apply(BlockBreakContext context)
     {
         if (!hasEnchant(context.getTool())) return;
+        if (!BlockUtil.getOres().contains(context.getOriginBlock().getType())) return;
 
         final List<Block> toBreak = BlockUtil.findNearestBlock(context.getOriginBlock(), 1, 30);
 
         if (toBreak == null) return;
 
         if (toBreak.size() <= 1) return;
-
-        IS_WEB = true;
 
         context.getAffectedBlocks().addAll(toBreak);
 
@@ -52,18 +49,15 @@ public class Web extends Enchant<BlockBreakEvent> implements BlockBreakableEncha
 
         context.getDrops().addAll(dropToAdd);
         visualWeb(context);
-        IS_WEB = false;
+
     }
 
     private void visualWeb(BlockBreakContext context) {
         for (Block block: context.getAffectedBlocks()) {
             if (block.getType() == Material.AIR) continue;
-            block.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, BlockUtil.getCenter(block), 6, 0.2, 0.03, 0.03, 0.03);
+            block.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, BlockUtil.getCenter(block), 1, 0.2, 0.03, 0.03, 0.03);
         }
     }
-
-
-
 
     @Override
     public void usage(BlockBreakEvent event)

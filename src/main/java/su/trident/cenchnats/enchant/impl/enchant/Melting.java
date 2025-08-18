@@ -65,7 +65,7 @@ public class Melting extends Enchant<BlockBreakEvent> implements BlockBreakableE
     private void visualMelt(BlockBreakContext context) {
         for (Block block: context.getAffectedBlocks()) {
             if (block.getType() == Material.AIR) continue;
-            block.getWorld().spawnParticle(Particle.FLAME, BlockUtil.getCenter(block), 3, 0.05, 0.01, 0.01, 0.01);
+            block.getWorld().spawnParticle(Particle.FLAME, BlockUtil.getCenter(block), 5, 0.01, 0.025, 0.025, 0.025);
         }
     }
 

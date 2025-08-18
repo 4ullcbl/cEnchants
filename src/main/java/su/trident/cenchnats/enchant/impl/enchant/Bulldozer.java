@@ -1,17 +1,15 @@
 package su.trident.cenchnats.enchant.impl.enchant;
 
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import su.trident.cenchnats.CEnchants;
 import su.trident.cenchnats.context.blockbreak.BlockBreakContext;
 import su.trident.cenchnats.enchant.api.BlockBreakableEnchant;
 import su.trident.cenchnats.enchant.api.Enchant;
+import su.trident.cenchnats.util.block.BlockUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +35,7 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
 
         if (!hasEnchant(tool)) return;
 
-        if (Web.IS_WEB) return;
+        if (hasEnchant(tool, plugin.getRegister().getWeb()) && BlockUtil.getOres().contains(context.getOriginBlock().getType())) return;
 
         final List<Block> blocksToBreak = getBlocksToBreak(tool, context.getOriginBlock(), context.getPlayer());
 
