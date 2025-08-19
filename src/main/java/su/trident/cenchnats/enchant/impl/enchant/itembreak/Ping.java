@@ -1,4 +1,4 @@
-package su.trident.cenchnats.enchant.impl.enchant;
+package su.trident.cenchnats.enchant.impl.enchant.itembreak;
 
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;

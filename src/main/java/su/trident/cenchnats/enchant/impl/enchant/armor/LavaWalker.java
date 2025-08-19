@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchnats.CEnchants;
+import su.trident.cenchnats.enchant.EnchantTarget;
 import su.trident.cenchnats.enchant.api.Enchant;
 
 import java.util.*;
@@ -140,5 +141,11 @@ public class LavaWalker extends Enchant<PlayerArmorChangeEvent>
     public String getKey()
     {
         return this.key;
+    }
+
+    @Override
+    public EnchantTarget getTarget()
+    {
+        return EnchantTarget.BOOTS;
     }
 }

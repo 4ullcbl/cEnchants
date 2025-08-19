@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import su.trident.cenchnats.CEnchants;
+import su.trident.cenchnats.enchant.EnchantTarget;
 import su.trident.cenchnats.enchant.api.Enchant;
 
 public class Jumper extends Enchant<PlayerArmorChangeEvent>
@@ -71,5 +72,11 @@ public class Jumper extends Enchant<PlayerArmorChangeEvent>
     public String getKey()
     {
         return this.key;
+    }
+
+    @Override
+    public EnchantTarget getTarget()
+    {
+        return EnchantTarget.BOOTS;
     }
 }

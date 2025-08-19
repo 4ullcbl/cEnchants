@@ -3,6 +3,7 @@ package su.trident.cenchnats.util.durability;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
@@ -31,14 +32,16 @@ public class DurabilityOptions
 
     public static void damageItem(Player player, @NotNull ItemStack item, int damage)
     {
+        if (!(item.getItemMeta() instanceof Damageable damageableMeta)) return;
+
         if (!isDamageable(item)) return;
 
         final PlayerItemDamageEvent event = new PlayerItemDamageEvent(player, item, damage);
         event.callEvent();
 
-        if (event.isCancelled()) return;
+        damage = getDamageСonsideringEnchant(item, damage);
 
-        final Damageable damageableMeta = (Damageable) item.getItemMeta();
+        if (event.isCancelled()) return;
 
         int newDamage = damageableMeta.getDamage() + damage;
         damageableMeta.setDamage(newDamage);
@@ -51,6 +54,31 @@ public class DurabilityOptions
         }
     }
 
+    private static int getDamageСonsideringEnchant(@NotNull ItemStack item, int damage)
+    {
+        if (hasEnchantmentLevel(item, Enchantment.DURABILITY, 1)) {
+            damage = (int) (damage / 1.5);
+        } else if (hasEnchantmentLevel(item, Enchantment.DURABILITY, 2)) {
+            damage = (int) (damage / 1.7);
+        } else if (hasEnchantmentLevel(item, Enchantment.DURABILITY, 3)) {
+            damage = damage / 2;
+        } else if (hasEnchantmentLevel(item, Enchantment.DURABILITY, 4)) {
+            damage = (int) (damage / 2.5);
+        } else if (hasEnchantmentLevel(item, Enchantment.DURABILITY, 5)) {
+            damage = (damage / 3);
+        }
+
+        return damage;
+    }
+
+
+    public static boolean hasEnchantmentLevel(ItemStack item, Enchantment enchantment, int level) {
+        if (item == null || !item.hasItemMeta()) {
+            return false;
+        }
+
+        return item.getEnchantmentLevel(enchantment) == level;
+    }
 
     public static void damageNoBreak(@NotNull ItemStack item, int damage)
     {
