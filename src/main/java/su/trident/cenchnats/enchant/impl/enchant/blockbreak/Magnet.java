@@ -6,6 +6,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchnats.CEnchants;
 import su.trident.cenchnats.context.blockbreak.BlockBreakContext;
+import su.trident.cenchnats.enchant.EnchantTarget;
 import su.trident.cenchnats.enchant.api.BlockBreakableEnchant;
 import su.trident.cenchnats.enchant.api.Enchant;
 
@@ -111,6 +112,12 @@ public class Magnet extends Enchant<BlockBreakEvent> implements BlockBreakableEn
     public String getKey()
     {
         return key;
+    }
+
+    @Override
+    public EnchantTarget getTarget()
+    {
+        return EnchantTarget.TOOLS;
     }
 
     public static List<Material> getMagnitude()

@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import su.trident.cenchnats.enchant.EnchantTarget;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,6 +82,8 @@ public abstract class Enchant<T extends Event> implements Listener
     public abstract int getMaxLvl();
 
     public abstract String getKey();
+
+    public abstract EnchantTarget getTarget();
 
     public JavaPlugin getPlugin()
     {

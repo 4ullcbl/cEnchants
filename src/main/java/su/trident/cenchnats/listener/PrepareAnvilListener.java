@@ -41,7 +41,7 @@ public class PrepareAnvilListener implements Listener
         for (Enchant<?> e: enchantsOnSecondItem) {
             int level = this.plugin.getStorage().getLevelSave(inventory.getSecondItem(), e);
 
-            if (level == 0) continue; // getLevelSave() возвращает 0 при отсутствии чара
+            if (level == 0 || !e.getTarget().isType(result.getType())) continue; // getLevelSave() возвращает 0 при отсутствии чара
 
             this.plugin.getStorage().addEnchantSave(result, e, level);
             cost += level;

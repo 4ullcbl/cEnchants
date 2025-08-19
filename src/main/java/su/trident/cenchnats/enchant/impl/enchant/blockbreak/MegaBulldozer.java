@@ -5,6 +5,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchnats.CEnchants;
 import su.trident.cenchnats.context.blockbreak.BlockBreakContext;
+import su.trident.cenchnats.enchant.EnchantTarget;
 import su.trident.cenchnats.enchant.api.BlockBreakableEnchant;
 import su.trident.cenchnats.enchant.api.Enchant;
 import su.trident.cenchnats.util.block.BlockUtil;
@@ -97,5 +98,11 @@ public class MegaBulldozer extends Enchant<BlockBreakEvent> implements BlockBrea
     public String getKey()
     {
         return this.key;
+    }
+
+    @Override
+    public EnchantTarget getTarget()
+    {
+        return EnchantTarget.TOOLS;
     }
 }

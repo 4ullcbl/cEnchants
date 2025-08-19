@@ -6,10 +6,10 @@
 
   <groupId>su.trident</groupId>
   <artifactId>cEnchnats</artifactId>
-  <version>v1.0.0</version>
+  <version>ALPHA</version>
   <packaging>jar</packaging>
 
-  <name>cEnchnats</name>
+  <name>cEnchants</name>
 
   <properties>
     <java.version>16</java.version>
