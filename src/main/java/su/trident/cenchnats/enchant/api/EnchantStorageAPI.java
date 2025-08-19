@@ -12,9 +12,11 @@ public interface EnchantStorageAPI
 
     void addEnchantSave(ItemStack stack, Enchant<?> enchant, int lvl);
 
-    ItemStack remove(ItemStack stack, Enchant<?> enchant);
+    void removeEnchant(ItemStack stack, Enchant<?> enchant);
 
-    ItemStack removeAll();
+    void removeAllEnchant();
+
+    ItemStack giveBook();
 
     boolean hasEnchant(ItemStack stack, Enchant<?> enchant);
 

@@ -39,9 +39,12 @@ public class EnchantStorage implements EnchantStorageAPI
     }
 
     @SuppressWarnings("deprecation")
-    private void safelyAddEnchant(ItemStack clone, ItemMeta meta, Enchant enchant, int lvl)
+    private void safelyAddEnchant(ItemStack stack, ItemMeta meta, Enchant<?> enchant, int lvl)
     {
-        if (hasEnchant(clone, enchant)) return;
+        if (hasEnchant(stack, enchant)) {
+            upgradeEnchant(stack, enchant, lvl);
+            return;
+        }
 
         final List<String> lore = meta.getLore() == null || meta.getLore().isEmpty() ? new ArrayList<>() : meta.getLore();
 
@@ -50,14 +53,63 @@ public class EnchantStorage implements EnchantStorageAPI
         meta.getPersistentDataContainer().set(new NamespacedKey(this.plugin, enchant.getKey()), PersistentDataType.INTEGER, lvl);
         meta.setLore(lore);
 
-        clone.setItemMeta(meta);
+        stack.setItemMeta(meta);
 
+    }
+    private void upgradeEnchant(ItemStack stack, Enchant<?> enchant, int lvl)
+    {
+        if (!isUpgradable(stack, enchant))  {
+            System.out.println("not is upgradable");
+            return;
+        }
+
+        int currentLevel = getLevel(stack, enchant);
+        if (currentLevel > lvl) {
+            System.out.println("clevel > lvl");
+            return;
+        }
+
+        removeEnchant(stack, enchant);
+
+        final ItemMeta upgradable = stack.getItemMeta();
+        if (upgradable == null) return;
+
+        int newLevel = Math.min(currentLevel + 1, enchant.getMaxLvl());
+
+        upgradeEnchant(stack, enchant, upgradable, newLevel);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void upgradeEnchant(ItemStack stack, Enchant<?> enchant, ItemMeta upgradable, int newLevel)
+    {
+        final List<String> lore = upgradable.getLore() == null ? new ArrayList<>() : upgradable.getLore();
+        safeAddEnchantLore(enchant, lore, newLevel);
+
+        upgradable.getPersistentDataContainer().set(
+                new NamespacedKey(this.plugin, enchant.getKey()),
+                PersistentDataType.INTEGER,
+                newLevel
+        );
+        upgradable.setLore(lore);
+
+        stack.setItemMeta(upgradable);
+
+        System.out.println("Upgraded " + enchant.getName() + " to level " + newLevel);
+    }
+
+    private boolean isUpgradable(ItemStack item, Enchant<?> enchant)
+    {
+        int level = getLevel(item, enchant);
+        System.out.println("upg: " + level);
+
+        System.out.println(level < enchant.getMaxLvl());
+
+        return level < enchant.getMaxLvl();
     }
 
     private void safeAddEnchantLore(Enchant<?> enchant, List<String> lore, int lvl)
     {
-
-        final String text = ChatColor.translateAlternateColorCodes('&', "&r&7" + enchant.getName() + " " + NumberUtil.toRoman(lvl));
+        final String text = getLoreEnch(enchant, lvl);
 
         if (lore.contains(text)) return;
 
@@ -65,13 +117,49 @@ public class EnchantStorage implements EnchantStorageAPI
     }
 
     @Override
-    public ItemStack remove(ItemStack stack, Enchant<?> enchant)
+    @SuppressWarnings("deprecation")
+    public void removeEnchant(ItemStack stack, Enchant<?> enchant)
     {
-        return null;
+        if (!hasEnchant(stack, enchant)) return;
+
+        if (stack.getItemMeta() == null || stack.getType().isEmpty() || stack.getLore() == null || stack.getLore().isEmpty())
+            return;
+
+        final ItemMeta meta = stack.getItemMeta();
+
+        removePdcAndLore(enchant, stack, meta);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void removePdcAndLore(Enchant<?> enchant, ItemStack stack, ItemMeta meta)
+    {
+        final int level = getLevel(stack, enchant);
+
+        if (level == 0) return;
+
+        if (meta.getLore() == null) return;
+
+        final List<String> lore = meta.getLore();
+
+        lore.removeIf(s -> ChatColor.stripColor(s).startsWith(enchant.getName()));
+
+        meta.getPersistentDataContainer().remove(new NamespacedKey(this.plugin, enchant.getKey()));
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+    }
+
+    private String getLoreEnch(Enchant<?> enchant, int level)
+    {
+        return ChatColor.translateAlternateColorCodes('&', "&r&7" + enchant.getName() + " " + NumberUtil.toRoman(level));
     }
 
     @Override
-    public ItemStack removeAll()
+    public void removeAllEnchant()
+    {
+    }
+
+    @Override
+    public ItemStack giveBook()
     {
         return null;
     }
