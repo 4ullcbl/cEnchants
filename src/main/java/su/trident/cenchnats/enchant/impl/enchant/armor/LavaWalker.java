@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchnats.CEnchants;
+import su.trident.cenchnats.enchant.EnchantTarget;
 import su.trident.cenchnats.enchant.api.Enchant;
 
 import java.util.*;
@@ -63,6 +64,8 @@ public class LavaWalker extends Enchant<PlayerArmorChangeEvent>
 
         replaceLavaToObsidian(blocksToReplace, player);
 
+        if (blocksToReplace.size() < 3) return;
+
         lavaWalkerVisual(player);
     }
 
@@ -81,6 +84,8 @@ public class LavaWalker extends Enchant<PlayerArmorChangeEvent>
         for (Block block : blocksToReplace) {
             if (block.getType() != Material.LAVA && player.getLocation().getBlock().getType() != Material.AIR) continue;
 
+            if (!this.plugin.getWorldGuardUtil().canPlaceBlock(player, block)) continue;
+
             if (block.getBlockData() instanceof Levelled levelled) {
                 if (levelled.getLevel() == 0) {
                     block.setType(Material.OBSIDIAN);
@@ -94,17 +99,18 @@ public class LavaWalker extends Enchant<PlayerArmorChangeEvent>
         boolean isFirstMode = hasEnchant(item, 1);
 
         return isFirstMode
-                ? getBlocksToReplace(block, 1)
-                : getBlocksToReplace(block, 2);
+                ? getBlocksToReplace(player, block, 1)
+                : getBlocksToReplace(player, block, 2);
     }
 
-    private List<Block> getBlocksToReplace(Block underPlayer, int radius)
+    private List<Block> getBlocksToReplace(Player player, Block underPlayer, int radius)
     {
         final List<Block> result = new ArrayList<>();
 
         for (int dx = -radius; dx <= radius; dx++) {
             for (int dz = -radius; dz <= radius; dz++) {
                 final Block relative = underPlayer.getRelative(dx, 0, dz);
+                if (!this.plugin.getWorldGuardUtil().canPlaceBlock(player, relative)) continue;
                 result.add(relative);
             }
         }
@@ -140,5 +146,11 @@ public class LavaWalker extends Enchant<PlayerArmorChangeEvent>
     public String getKey()
     {
         return this.key;
+    }
+
+    @Override
+    public EnchantTarget getTarget()
+    {
+        return EnchantTarget.BOOTS;
     }
 }

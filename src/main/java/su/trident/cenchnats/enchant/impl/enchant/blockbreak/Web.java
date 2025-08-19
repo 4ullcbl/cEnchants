@@ -7,6 +7,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchnats.CEnchants;
 import su.trident.cenchnats.context.blockbreak.BlockBreakContext;
+import su.trident.cenchnats.enchant.EnchantTarget;
 import su.trident.cenchnats.enchant.api.BlockBreakableEnchant;
 import su.trident.cenchnats.enchant.api.Enchant;
 import su.trident.cenchnats.util.block.BlockUtil;
@@ -43,6 +44,8 @@ public class Web extends Enchant<BlockBreakEvent> implements BlockBreakableEncha
         final List<ItemStack> dropToAdd = new ArrayList<>();
 
         for (Block block : context.getAffectedBlocks()) {
+            if (!this.plugin.getWorldGuardUtil().canBreakBlock(context.getPlayer(), block)) continue;
+
             if (block.equals(context.getOriginBlock())) continue;
             dropToAdd.addAll(block.getDrops(context.getTool()));
         }
@@ -93,5 +96,11 @@ public class Web extends Enchant<BlockBreakEvent> implements BlockBreakableEncha
     public String getKey()
     {
         return this.key;
+    }
+
+    @Override
+    public EnchantTarget getTarget()
+    {
+        return EnchantTarget.TOOLS;
     }
 }

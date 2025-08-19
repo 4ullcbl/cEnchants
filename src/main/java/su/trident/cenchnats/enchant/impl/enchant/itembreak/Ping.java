@@ -1,10 +1,11 @@
-package su.trident.cenchnats.enchant.impl.enchant;
+package su.trident.cenchnats.enchant.impl.enchant.itembreak;
 
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchnats.CEnchants;
+import su.trident.cenchnats.enchant.EnchantTarget;
 import su.trident.cenchnats.enchant.api.Enchant;
 import su.trident.cenchnats.util.durability.DurabilityOptions;
 
@@ -63,5 +64,11 @@ public class Ping extends Enchant<PlayerItemDamageEvent>
     public String getKey()
     {
         return this.key;
+    }
+
+    @Override
+    public EnchantTarget getTarget()
+    {
+        return EnchantTarget.ALL;
     }
 }
