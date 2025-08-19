@@ -39,7 +39,7 @@ public class GiveEnchant implements CommandExecutor, TabExecutor
 
             for (String key: Enchant.keySet()) {
                 if (Objects.equals(key, arg)) {
-                    plugin.getStorage().addEnchant(item, Enchant.getByKey(key), lvl);
+                    plugin.getStorage().addEnchantSave(item, Enchant.getByKey(key), lvl);
                 }
             }
 

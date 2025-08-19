@@ -129,7 +129,7 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
     @Override
     public String getName()
     {
-        return "Bulldozer";
+        return "Бульдозер";
     }
 
     @Override

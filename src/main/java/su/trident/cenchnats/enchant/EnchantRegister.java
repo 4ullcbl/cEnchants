@@ -1,10 +1,13 @@
 package su.trident.cenchnats.enchant;
 
+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import su.trident.cenchnats.CEnchants;
 import su.trident.cenchnats.enchant.api.Enchant;
 import su.trident.cenchnats.enchant.impl.enchant.*;
+import su.trident.cenchnats.enchant.impl.enchant.armor.Jumper;
+import su.trident.cenchnats.enchant.impl.enchant.armor.LavaWalker;
 import su.trident.cenchnats.enchant.impl.enchant.blockbreak.*;
 
 public class EnchantRegister
@@ -19,6 +22,8 @@ public class EnchantRegister
     private final Enchant<BlockBreakEvent> web;
     private final Enchant<BlockBreakEvent> megaBulldozer;
     private final Enchant<BlockBreakEvent> woodCutter;
+    private final Enchant<PlayerArmorChangeEvent> jumper;
+    private final Enchant<PlayerArmorChangeEvent> lavaWalker;
 
     public EnchantRegister(CEnchants plugin)
     {
@@ -44,6 +49,17 @@ public class EnchantRegister
 
         this.woodCutter = new Woodcutter("woodcutter", this.plugin);
         this.woodCutter.register();
+
+        this.jumper = new Jumper("jumper", this.plugin);
+        this.jumper.register();
+
+        this.lavaWalker = new LavaWalker("lavawalker", this.plugin);
+        this.lavaWalker.register();
+    }
+
+    public Enchant<PlayerArmorChangeEvent> getJumper()
+    {
+        return jumper;
     }
 
     public Enchant<BlockBreakEvent> getBulldozer()
@@ -79,5 +95,10 @@ public class EnchantRegister
     public Enchant<BlockBreakEvent> getWoodCutter()
     {
         return woodCutter;
+    }
+
+    public Enchant<PlayerArmorChangeEvent> getLavaWalker()
+    {
+        return lavaWalker;
     }
 }
