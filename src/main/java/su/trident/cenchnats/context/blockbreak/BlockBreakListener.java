@@ -30,15 +30,16 @@ public class BlockBreakListener implements Listener
     @EventHandler
     public void onBreak(BlockBreakEvent event)
     {
-
         final Player player = event.getPlayer();
         final Block block = event.getBlock();
         final ItemStack tool = player.getInventory().getItemInMainHand();
 
+        if (event.isCancelled()) return;
+
         if (tool.getItemMeta() == null || tool.getType() == Material.AIR || !tool.hasItemMeta() || tool.getType().isEmpty())
             return;
 
-        final BlockBreakContext context = new BlockBreakContext(player, block, tool);
+        final BlockBreakContext context = new BlockBreakContext(plugin, player, block, tool);
         saveDrops(context, tool);
 
         final List<Enchant<?>> enchants = plugin.getStorage().getAll(tool);
@@ -66,6 +67,7 @@ public class BlockBreakListener implements Listener
         final List<ItemStack> dropToAdd = new ArrayList<>();
 
         for (Block b : context.getAffectedBlocks()) {
+            if (!this.plugin.getWorldGuardUtil().canBreakBlock(context.getPlayer(), b)) continue;
             dropToAdd.addAll(b.getDrops(tool));
         }
 
@@ -76,6 +78,7 @@ public class BlockBreakListener implements Listener
     {
         for (Block affected : context.getAffectedBlocks()) {
             if (BlockUtil.getUnbreakable().contains(affected.getType())) continue;
+            if (!this.plugin.getWorldGuardUtil().canBreakBlock(context.getPlayer(), affected)) continue;
 
             BlockUtil.spawnBreakParticle(affected);
             affected.setType(Material.AIR);

@@ -2,6 +2,7 @@ package su.trident.cenchnats.enchant;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -10,6 +11,9 @@ import su.trident.cenchnats.CEnchants;
 import su.trident.cenchnats.enchant.api.Enchant;
 import su.trident.cenchnats.enchant.impl.enchant.armor.Jumper;
 import su.trident.cenchnats.enchant.impl.enchant.armor.LavaWalker;
+import su.trident.cenchnats.enchant.impl.enchant.attack.Detection;
+import su.trident.cenchnats.enchant.impl.enchant.attack.Poison;
+import su.trident.cenchnats.enchant.impl.enchant.attack.Vampiring;
 import su.trident.cenchnats.enchant.impl.enchant.blockbreak.*;
 import su.trident.cenchnats.enchant.impl.enchant.interact.Greener;
 import su.trident.cenchnats.enchant.impl.enchant.itembreak.Ping;
@@ -34,6 +38,9 @@ public class EnchantRegister
     private final Enchant<ProjectileHitEvent> comeback;
     private final Enchant<ProjectileHitEvent> boomber;
     private final Enchant<EntityShootBowEvent> sniper;
+    private final Enchant<EntityDamageByEntityEvent> detection;
+    private final Enchant<EntityDamageByEntityEvent> poison;
+    private final Enchant<EntityDamageByEntityEvent> vamping;
 
     public EnchantRegister(CEnchants plugin)
     {
@@ -85,6 +92,15 @@ public class EnchantRegister
 
         this.sniper = new Sniper("sniper", plugin);
         this.sniper.register();
+
+        this.detection = new Detection("detect", plugin);
+        this.detection.register();
+
+        this.poison = new Poison("poison", plugin);
+        this.poison.register();
+
+        this.vamping = new Vampiring("vamp", plugin);
+        this.vamping.register();
     }
 
     public Enchant<PlayerArmorChangeEvent> getJumper()
@@ -165,5 +181,20 @@ public class EnchantRegister
     public Enchant<EntityShootBowEvent> getSniper()
     {
         return sniper;
+    }
+
+    public Enchant<EntityDamageByEntityEvent> getDetection()
+    {
+        return detection;
+    }
+
+    public Enchant<EntityDamageByEntityEvent> getPoison()
+    {
+        return poison;
+    }
+
+    public Enchant<EntityDamageByEntityEvent> getVamping()
+    {
+        return vamping;
     }
 }

@@ -37,6 +37,9 @@ public class Greener extends Enchant<PlayerInteractEvent>
         if (ageable.getAge() >= ageable.getMaximumAge())
             return;
 
+        if (!plugin.getWorldGuardUtil().canPlaceBlock(event.getPlayer(), event.getClickedBlock()))
+            return;
+
         ageable.setAge(ageable.getAge() + 1);
         event.getClickedBlock().setBlockData(ageable);
 

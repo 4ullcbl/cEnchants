@@ -48,7 +48,10 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
 
         final List<ItemStack> dropToAdd = new ArrayList<>();
 
-        for (Block block: context.getAffectedBlocks()) {
+        for (Block block : context.getAffectedBlocks()) {
+
+            if (!this.plugin.getWorldGuardUtil().canBreakBlock(context.getPlayer(), block)) continue;
+
             if (block.equals(context.getOriginBlock())) continue;
             dropToAdd.addAll(block.getDrops(tool));
         }
@@ -68,15 +71,16 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
     }
 
 
-    private List<Block> getBlocksToBreak(ItemStack item, Block block, Player player) {
+    private List<Block> getBlocksToBreak(ItemStack item, Block block, Player player)
+    {
         boolean isFirstMode = hasEnchant(item, 1);
 
         return isFirstMode
                 ? bulldozerFirstBlockToBreak(block, player)
-                : bulldozerSecondBlockToBreak(block);
+                : bulldozerSecondBlockToBreak(block, player);
     }
 
-    private List<Block> bulldozerSecondBlockToBreak(Block center)
+    private List<Block> bulldozerSecondBlockToBreak(Block center, Player player)
     {
         final List<Block> result = new ArrayList<>();
 
@@ -85,6 +89,7 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
                 for (int dz = -1; dz <= 1; dz++) {
                     if (dx == 0 && dy == 0 && dz == 0) continue;
                     Block relative = center.getRelative(dx, dy, dz);
+                    if (!this.plugin.getWorldGuardUtil().canBreakBlock(player, relative)) continue;
                     result.add(relative);
                 }
             }
@@ -104,6 +109,7 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dz = -1; dz <= 1; dz++) {
                     final Block relative = center.getRelative(dx, 0, dz);
+                    if (!this.plugin.getWorldGuardUtil().canBreakBlock(player, relative)) continue;
                     result.add(relative);
                 }
             }
@@ -111,14 +117,16 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
             if (Math.abs(direction.getX()) > Math.abs(direction.getZ())) {
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dz = -1; dz <= 1; dz++) {
-                        Block relative = center.getRelative(0, dy, dz);
+                        final Block relative = center.getRelative(0, dy, dz);
+                        if (!this.plugin.getWorldGuardUtil().canBreakBlock(player, relative)) continue;
                         result.add(relative);
                     }
                 }
             } else {
                 for (int dx = -1; dx <= 1; dx++) {
                     for (int dy = -1; dy <= 1; dy++) {
-                        Block relative = center.getRelative(dx, dy, 0);
+                        final Block relative = center.getRelative(dx, dy, 0);
+                        if (!this.plugin.getWorldGuardUtil().canBreakBlock(player, relative)) continue;
                         result.add(relative);
                     }
                 }

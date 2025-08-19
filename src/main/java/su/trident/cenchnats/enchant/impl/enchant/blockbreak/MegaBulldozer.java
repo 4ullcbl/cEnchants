@@ -1,6 +1,7 @@
 package su.trident.cenchnats.enchant.impl.enchant.blockbreak;
 
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchnats.CEnchants;
@@ -35,13 +36,16 @@ public class MegaBulldozer extends Enchant<BlockBreakEvent> implements BlockBrea
                 || (hasEnchant(context.getTool(), plugin.getRegister().getWoodCutter()) && context.getOriginBlock().getType().toString().contains("_LOG")))
             return;
 
-        final List<Block> blocksToBreak = getBlocksToBreak(context.getOriginBlock());
+        final List<Block> blocksToBreak = getBlocksToBreak(context.getOriginBlock(), context.getPlayer());
 
         context.getAffectedBlocks().addAll(blocksToBreak);
 
         final List<ItemStack> dropToAdd = new ArrayList<>();
 
         for (Block block: context.getAffectedBlocks()) {
+
+            if (!this.plugin.getWorldGuardUtil().canBreakBlock(context.getPlayer(), block)) continue;
+
             if (block.equals(context.getOriginBlock())) continue;
             dropToAdd.addAll(block.getDrops(context.getTool()));
         }
@@ -49,7 +53,7 @@ public class MegaBulldozer extends Enchant<BlockBreakEvent> implements BlockBrea
         context.getDrops().addAll(dropToAdd);
     }
 
-    private List<Block> getBlocksToBreak(Block start)
+    private List<Block> getBlocksToBreak(Block start, Player player)
     {
         final List<Block> result = new ArrayList<>();
 
@@ -58,6 +62,7 @@ public class MegaBulldozer extends Enchant<BlockBreakEvent> implements BlockBrea
                 for (int dz = -2; dz <= 2; dz++) {
                     if (dx == 0 && dy == 0 && dz == 0) continue;
                     final Block relative = start.getRelative(dx, dy, dz);
+                    if (!this.plugin.getWorldGuardUtil().canBreakBlock(player, relative)) continue;
                     result.add(relative);
                 }
             }

@@ -2,6 +2,7 @@ name: cEnchnats
 version: '${project.version}'
 main: su.trident.cenchnats.CEnchants
 api-version: '1.16'
+depend: [ WorldGuard ]
 commands:
   ce:
     permission: trident-enchant

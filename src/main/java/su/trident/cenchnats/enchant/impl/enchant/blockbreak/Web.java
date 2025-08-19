@@ -44,6 +44,8 @@ public class Web extends Enchant<BlockBreakEvent> implements BlockBreakableEncha
         final List<ItemStack> dropToAdd = new ArrayList<>();
 
         for (Block block : context.getAffectedBlocks()) {
+            if (!this.plugin.getWorldGuardUtil().canBreakBlock(context.getPlayer(), block)) continue;
+
             if (block.equals(context.getOriginBlock())) continue;
             dropToAdd.addAll(block.getDrops(context.getTool()));
         }

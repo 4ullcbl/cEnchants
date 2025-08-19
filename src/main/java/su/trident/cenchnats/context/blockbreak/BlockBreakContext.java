@@ -4,6 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import su.trident.cenchnats.CEnchants;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,6 +13,8 @@ import java.util.Set;
 
 public class BlockBreakContext
 {
+    private final CEnchants plugin;
+
     protected final Player player;
     protected final ItemStack tool;
     protected final Block originBlock;
@@ -22,12 +25,15 @@ public class BlockBreakContext
 
     protected int blockCount;
 
-    public BlockBreakContext(Player player, Block originBlock, ItemStack tool)
+    public BlockBreakContext(CEnchants plugin, Player player, Block originBlock, ItemStack tool)
     {
+        this.plugin = plugin;
         this.player = player;
         this.tool = tool;
         this.originBlock = originBlock;
-        this.affectedBlocks.add(originBlock);
+        if (this.plugin.getWorldGuardUtil().canBreakBlock(player, this.originBlock)) {
+            this.affectedBlocks.add(originBlock);
+        }
         blockCount = affectedBlocks.size();
     }
 
