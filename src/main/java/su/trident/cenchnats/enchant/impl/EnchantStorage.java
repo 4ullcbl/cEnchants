@@ -1,6 +1,7 @@
 package su.trident.cenchnats.enchant.impl;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -159,9 +160,13 @@ public class EnchantStorage implements EnchantStorageAPI
     }
 
     @Override
-    public ItemStack giveBook()
+    public ItemStack book(Enchant<?> enchant, int level)
     {
-        return null;
+        final ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+
+        addEnchantSave(book, enchant, level);
+
+        return book;
     }
 
     @Override

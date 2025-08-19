@@ -37,9 +37,10 @@ public class GiveEnchant implements CommandExecutor, TabExecutor
         try {
             final int lvl = Integer.parseInt(args[1]);
 
-            for (String key: Enchant.keySet()) {
+            for (String key : Enchant.keySet()) {
                 if (Objects.equals(key, arg)) {
                     plugin.getStorage().addEnchantSave(item, Enchant.getByKey(key), lvl);
+                    player.getInventory().addItem(plugin.getStorage().book(Enchant.getByKey(key), lvl));
                 }
             }
 

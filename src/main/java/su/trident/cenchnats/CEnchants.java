@@ -6,6 +6,9 @@ import su.trident.cenchnats.context.blockbreak.BlockBreakListener;
 import su.trident.cenchnats.enchant.EnchantRegister;
 import su.trident.cenchnats.enchant.api.EnchantStorageAPI;
 import su.trident.cenchnats.enchant.impl.EnchantStorage;
+import su.trident.cenchnats.listener.PrepareAnvilListener;
+
+import java.util.Objects;
 
 public final class CEnchants extends JavaPlugin {
 
@@ -17,8 +20,9 @@ public final class CEnchants extends JavaPlugin {
         register = new EnchantRegister(this);
         storage = new EnchantStorage(this);
 
-        getCommand("ce").setExecutor(new GiveEnchant(this));
+        Objects.requireNonNull(getCommand("ce")).setExecutor(new GiveEnchant(this));
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
+        getServer().getPluginManager().registerEvents(new PrepareAnvilListener(this), this);
     }
 
     public EnchantRegister getRegister()

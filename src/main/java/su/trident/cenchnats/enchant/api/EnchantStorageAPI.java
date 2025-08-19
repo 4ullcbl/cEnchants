@@ -16,7 +16,7 @@ public interface EnchantStorageAPI
 
     void removeAllEnchant();
 
-    ItemStack giveBook();
+    ItemStack book(Enchant<?> enchant, int level);
 
     boolean hasEnchant(ItemStack stack, Enchant<?> enchant);
 
