@@ -206,7 +206,7 @@ public class EnchantStorage implements EnchantStorageAPI
     @Override
     public int getLevelSave(ItemStack item, Enchant<?> e)
     {
-        if (item == null || item.getItemMeta() == null) return 0;
+        if (item == null || item.getItemMeta() == null || item.getType().isEmpty()) return 0;
 
         final NamespacedKey key = new NamespacedKey(e.getPlugin(), e.getKey());
 
