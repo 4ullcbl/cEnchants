@@ -17,7 +17,7 @@ public final class CEnchants extends JavaPlugin {
         register = new EnchantRegister(this);
         storage = new EnchantStorage(this);
 
-        getCommand("ench").setExecutor(new GiveEnchant(this));
+        getCommand("ce").setExecutor(new GiveEnchant(this));
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
     }
 

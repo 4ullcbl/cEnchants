@@ -1,4 +1,4 @@
-package su.trident.cenchnats.enchant.impl.enchant;
+package su.trident.cenchnats.enchant.impl.enchant.blockbreak;
 
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -29,6 +29,7 @@ public class Melting extends Enchant<BlockBreakEvent> implements BlockBreakableE
         melted.put(Material.SAND, new ItemStack(Material.GLASS));
         melted.put(Material.COBBLESTONE, new ItemStack(Material.STONE));
         melted.put(Material.STONE, new ItemStack(Material.STONE));
+        melted.put(Material.OAK_LOG, new ItemStack(Material.CHARCOAL));
     }
 
     public Melting(String key, CEnchants plugin)
@@ -62,10 +63,13 @@ public class Melting extends Enchant<BlockBreakEvent> implements BlockBreakableE
         visualMelt(context);
     }
 
-    private void visualMelt(BlockBreakContext context) {
-        for (Block block: context.getAffectedBlocks()) {
-            if (block.getType() == Material.AIR) continue;
-            block.getWorld().spawnParticle(Particle.FLAME, BlockUtil.getCenter(block), 5, 0.01, 0.025, 0.025, 0.025);
+    private void visualMelt(BlockBreakContext context)
+    {
+        for (Block block : context.getAffectedBlocks()) {
+            if (block.getType() == Material.AIR || block.isEmpty() || BlockUtil.getUnbreakable().contains(block.getType()) || block.getType().isEmpty() || block.getType().isAir())
+                continue;
+
+            block.getWorld().spawnParticle(Particle.FLAME, BlockUtil.getCenter(block), 5, 0.028, 0.045, 0.045, 0.045);
         }
     }
 

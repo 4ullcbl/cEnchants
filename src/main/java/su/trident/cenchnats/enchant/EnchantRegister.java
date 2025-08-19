@@ -1,13 +1,11 @@
 package su.trident.cenchnats.enchant;
 
-import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import su.trident.cenchnats.CEnchants;
 import su.trident.cenchnats.enchant.api.Enchant;
 import su.trident.cenchnats.enchant.impl.enchant.*;
+import su.trident.cenchnats.enchant.impl.enchant.blockbreak.*;
 
 public class EnchantRegister
 {
@@ -19,6 +17,8 @@ public class EnchantRegister
     private final Enchant<BlockBreakEvent> magnet;
     private final Enchant<PlayerItemDamageEvent> pinger;
     private final Enchant<BlockBreakEvent> web;
+    private final Enchant<BlockBreakEvent> megaBulldozer;
+    private final Enchant<BlockBreakEvent> woodCutter;
 
     public EnchantRegister(CEnchants plugin)
     {
@@ -38,6 +38,12 @@ public class EnchantRegister
 
         this.web = new Web("web", this.plugin);
         this.web.register();
+
+        this.megaBulldozer = new MegaBulldozer("mega_bulldozer", this.plugin);
+        this.megaBulldozer.register();
+
+        this.woodCutter = new Woodcutter("woodcutter", this.plugin);
+        this.woodCutter.register();
     }
 
     public Enchant<BlockBreakEvent> getBulldozer()
@@ -60,8 +66,18 @@ public class EnchantRegister
         return pinger;
     }
 
+    public Enchant<BlockBreakEvent> getMegaBulldozer()
+    {
+        return megaBulldozer;
+    }
+
     public Enchant<BlockBreakEvent> getWeb()
     {
         return web;
+    }
+
+    public Enchant<BlockBreakEvent> getWoodCutter()
+    {
+        return woodCutter;
     }
 }

@@ -1,4 +1,4 @@
-package su.trident.cenchnats.enchant.impl.enchant;
+package su.trident.cenchnats.enchant.impl.enchant.blockbreak;
 
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -42,19 +42,20 @@ public class Web extends Enchant<BlockBreakEvent> implements BlockBreakableEncha
 
         final List<ItemStack> dropToAdd = new ArrayList<>();
 
-        for (Block block: context.getAffectedBlocks()) {
+        for (Block block : context.getAffectedBlocks()) {
             if (block.equals(context.getOriginBlock())) continue;
             dropToAdd.addAll(block.getDrops(context.getTool()));
         }
 
         context.getDrops().addAll(dropToAdd);
         visualWeb(context);
-
     }
 
-    private void visualWeb(BlockBreakContext context) {
-        for (Block block: context.getAffectedBlocks()) {
-            if (block.getType() == Material.AIR) continue;
+    private void visualWeb(BlockBreakContext context)
+    {
+        for (Block block : context.getAffectedBlocks()) {
+            if (block.getType() == Material.AIR || block.isEmpty() || BlockUtil.getUnbreakable().contains(block.getType()) || block.getType().isEmpty() || block.getType().isAir())
+                continue;
             block.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, BlockUtil.getCenter(block), 1, 0.2, 0.03, 0.03, 0.03);
         }
     }

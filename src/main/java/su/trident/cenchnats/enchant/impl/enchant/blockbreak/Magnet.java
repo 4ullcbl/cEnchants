@@ -1,8 +1,7 @@
-package su.trident.cenchnats.enchant.impl.enchant;
+package su.trident.cenchnats.enchant.impl.enchant.blockbreak;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
-import org.bukkit.event.EventHandler;
+import org.bukkit.Sound;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchnats.CEnchants;
@@ -40,6 +39,7 @@ public class Magnet extends Enchant<BlockBreakEvent> implements BlockBreakableEn
         magnitude.add(Material.JUNGLE_LOG);
         magnitude.add(Material.ACACIA_LOG);
         magnitude.add(Material.DARK_OAK_LOG);
+        magnitude.add(Material.CHARCOAL);
     }
 
     private final String key;
@@ -69,8 +69,13 @@ public class Magnet extends Enchant<BlockBreakEvent> implements BlockBreakableEn
             }
         }
 
+        if (newDrop.size() != context.getDrops().size()) {
+            context.getPlayer().playSound(context.getPlayer().getEyeLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
+        }
+
         context.getDrops().clear();
         context.getDrops().addAll(newDrop);
+
     }
 
     @Override

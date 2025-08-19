@@ -1,5 +1,7 @@
 package su.trident.cenchnats.util.durability;
 
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerItemDamageEvent;
@@ -21,8 +23,8 @@ public class DurabilityOptions
 
         if (damageableMeta.getDamage() >= item.getType().getMaxDurability()) {
             damageableMeta.setDamage(item.getType().getMaxDurability());
-            item.setAmount(0);
-        } else {
+            item.setType(Material.AIR);
+        } else if (isDamageable(item)) {
             item.setItemMeta((ItemMeta) damageableMeta);
         }
     }
@@ -41,10 +43,10 @@ public class DurabilityOptions
         int newDamage = damageableMeta.getDamage() + damage;
         damageableMeta.setDamage(newDamage);
 
-        if (newDamage >= item.getType().getMaxDurability()) {
+        if (newDamage >= item.getType().getMaxDurability() && isDamageable(item)) {
             item.setAmount(0);
             player.playSound(player.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
-        } else {
+        } else if (isDamageable(item)) {
             item.setItemMeta((ItemMeta) damageableMeta);
         }
     }

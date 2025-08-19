@@ -15,6 +15,7 @@ public class BlockUtil
 {
     private static final List<Material> UNBREAKABLE = Arrays.asList(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR, Material.BARRIER, Material.BEDROCK, Material.END_PORTAL, Material.END_PORTAL_FRAME, Material.NETHER_PORTAL, Material.COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK, Material.STRUCTURE_BLOCK, Material.JIGSAW, Material.STRUCTURE_VOID, Material.PISTON_HEAD, Material.MOVING_PISTON, Material.FIRE, Material.SOUL_FIRE, Material.WATER, Material.LAVA, Material.BUBBLE_COLUMN);
     private static final List<Material> ORES = Arrays.asList(Material.COAL_ORE, Material.IRON_ORE, Material.GOLD_ORE, Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.REDSTONE_ORE, Material.LAPIS_ORE, Material.NETHER_QUARTZ_ORE, Material.NETHER_GOLD_ORE, Material.ANCIENT_DEBRIS);
+    private static final List<Material> WOOD = Arrays.asList(Material.OAK_LOG, Material.SPRUCE_LOG);
 
     public static Location getCenter(Block block)
     {
@@ -60,20 +61,6 @@ public class BlockUtil
         return y >= minY && y <= maxY;
     }
 
-    public static void superNatruallyBreak(ItemStack stack, Block block, Player player)
-    {
-        final BlockBreakEvent event = new BlockBreakEvent(block, player);
-
-        if (event.isCancelled())
-            return;
-
-        if (!event.callEvent())
-            return;
-
-        event.callEvent();
-        block.breakNaturally(stack);
-    }
-
     public static void spawnBreakParticle(Player player, Block block)
     {
         player.spawnParticle(
@@ -99,7 +86,7 @@ public class BlockUtil
     }
 
     /**
-     * Находит ближайшие руды схожие с добытой
+     * Находит ближайших блоков схожих с добытой
      *
      * @param start   Блок, от которого ищем руды
      * @param radius  Радиус поиска (в блоках)
@@ -108,9 +95,6 @@ public class BlockUtil
      */
     public static List<Block> findNearestBlock(Block start, int radius, int maxOres)
     {
-
-        if (!ORES.contains(start.getType())) return null;
-
         final Queue<Block> toCheck = new LinkedList<>();
         final Set<Block> visited = new HashSet<>();
 
@@ -127,7 +111,10 @@ public class BlockUtil
                         if (neighbor.getType() == start.getType() && visited.add(neighbor)) {
                             toCheck.add(neighbor);
 
-                            if (toCheck.size() >= maxOres) break;
+                            if (toCheck.size() >= maxOres) {
+                                visited.remove(start);
+                                return new ArrayList<>(visited);
+                            }
                         }
                     }
                 }
@@ -139,11 +126,13 @@ public class BlockUtil
         return new ArrayList<>(visited);
     }
 
-    public static List<Material> getOres() {
+    public static List<Material> getOres()
+    {
         return ORES;
     }
 
-    public static List<Material> getUnbreakable() {
+    public static List<Material> getUnbreakable()
+    {
         return UNBREAKABLE;
     }
 }
