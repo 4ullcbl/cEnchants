@@ -14,15 +14,21 @@ public interface EnchantStorageAPI
 
     void removeEnchant(ItemStack stack, Enchant<?> enchant);
 
-    void removeAllEnchant();
-
-    ItemStack book(Enchant<?> enchant, int level);
+    void removeAllEnchant(ItemStack stack);
 
     boolean hasEnchant(ItemStack stack, Enchant<?> enchant);
 
+    int getLevel(ItemStack item, Enchant<?> enchant);
+
+    int getLevelSave(ItemStack item, Enchant<?> enchant);
+
+    int getRandomLevel(Enchant<?> enchant);
+
+    ItemStack book(Enchant<?> enchant, int level);
+
     List<Enchant<?>> getAll(ItemStack itemStack);
 
-    int getLevel(ItemStack item, Enchant<?> e);
+    List<Enchant<?>> getRandom();
 
-    int getLevelSave(ItemStack item, Enchant<?> e);
+    List<Enchant<?>> getRandom(int count);;
 }

@@ -98,9 +98,11 @@ public abstract class Enchant<T extends Event> implements Listener
 
     public abstract int getMaxLvl();
 
-    public abstract String getKey();
-
     public abstract EnchantTarget getTarget();
+
+    public abstract int getChance();
+
+    public abstract String getKey();
 
     public JavaPlugin getPlugin()
     {

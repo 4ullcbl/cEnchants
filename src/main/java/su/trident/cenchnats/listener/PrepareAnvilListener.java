@@ -46,7 +46,7 @@ public class PrepareAnvilListener implements Listener
                 return;
             }
 
-            if (level == 0) return;// getLevelSave() возвращает 0 при отсутствии чара
+            if (level == 0) return; // getLevelSave() возвращает 0 при отсутствии чара
 
             this.plugin.getStorage().addEnchantSave(result, e, level);
             cost += level;

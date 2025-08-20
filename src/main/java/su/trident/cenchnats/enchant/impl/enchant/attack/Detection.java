@@ -49,10 +49,10 @@ public class Detection extends Enchant<EntityDamageByEntityEvent>
             target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 20 * 2, 1));
         }
         else if (level == 2 && random.nextDouble() >= 0.5) {
-            target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 4, 1));
+            target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 20 * 4, 1));
         }
         else if (level > 2 && random.nextDouble() >= 0.5) {
-            target.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 5, 1));
+            target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 20 * 5, 1));
         }
     }
 
@@ -91,6 +91,12 @@ public class Detection extends Enchant<EntityDamageByEntityEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.WEAPON;
+    }
+
+    @Override
+    public int getChance()
+    {
+        return 10;
     }
 }
 

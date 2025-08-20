@@ -14,9 +14,12 @@ import su.trident.cenchnats.util.numbers.NumberUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class EnchantStorage implements EnchantStorageAPI
 {
+    private static final Random random = new Random();
+
     private final JavaPlugin plugin;
 
     public EnchantStorage(JavaPlugin plugin)
@@ -35,6 +38,7 @@ public class EnchantStorage implements EnchantStorageAPI
     {
         if (lvl > enchant.getMaxLvl() || lvl < enchant.getStartLvl()) return;
         if (stack.getItemMeta() == null) return;
+        if (!(enchant.getTarget().isType(stack.getType()))) return;
 
         safelyAddEnchant(stack, stack.getItemMeta(), enchant, lvl);
     }
@@ -57,9 +61,10 @@ public class EnchantStorage implements EnchantStorageAPI
         stack.setItemMeta(meta);
 
     }
+
     private void upgradeEnchant(ItemStack stack, Enchant<?> enchant, int lvl)
     {
-        if (!isUpgradable(stack, enchant))  {
+        if (!isUpgradable(stack, enchant)) {
             System.out.println("not is upgradable");
             return;
         }
@@ -155,7 +160,7 @@ public class EnchantStorage implements EnchantStorageAPI
     }
 
     @Override
-    public void removeAllEnchant()
+    public void removeAllEnchant(ItemStack stack)
     {
     }
 
@@ -193,6 +198,38 @@ public class EnchantStorage implements EnchantStorageAPI
     }
 
     @Override
+    public List<Enchant<?>> getRandom()
+    {
+        final List<Enchant<?>> result = new ArrayList<>();
+
+        for (String key : Enchant.keySet()) {
+            if (random.nextInt(100) > Enchant.getByKey(key).getChance()) continue;
+            result.add(Enchant.getByKey(key));
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Enchant<?>> getRandom(int count)
+    {
+        final List<Enchant<?>> result = new ArrayList<>();
+
+        for (String key : Enchant.keySet()) {
+            if (random.nextInt(100) > Enchant.getByKey(key).getChance()) continue;
+
+            if (result.size() <= count) {
+                result.add(Enchant.getByKey(key));
+                continue;
+            }
+            return result;
+        }
+
+        return result;
+    }
+
+
+    @Override
     public int getLevel(ItemStack item, Enchant<?> e)
     {
         final NamespacedKey key = new NamespacedKey(e.getPlugin(), e.getKey());
@@ -214,5 +251,14 @@ public class EnchantStorage implements EnchantStorageAPI
                         .getPersistentDataContainer()
                         .get(key, PersistentDataType.INTEGER))
                 .orElse(0);
+    }
+
+    @Override
+    public int getRandomLevel(Enchant<?> enchant)
+    {
+        if (enchant.getStartLvl() == enchant.getMaxLvl()) return enchant.getStartLvl();
+
+        int range = enchant.getMaxLvl() - enchant.getStartLvl() + 1;
+        return random.nextInt(range) + enchant.getStartLvl();
     }
 }

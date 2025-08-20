@@ -77,4 +77,10 @@ public class Sniper extends Enchant<EntityShootBowEvent>
     {
         return EnchantTarget.BOW;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 10;
+    }
 }

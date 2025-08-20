@@ -153,4 +153,10 @@ public class LavaWalker extends Enchant<PlayerArmorChangeEvent>
     {
         return EnchantTarget.BOOTS;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 5;
+    }
 }

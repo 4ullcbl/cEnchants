@@ -88,7 +88,7 @@ public class Melting extends Enchant<BlockBreakEvent> implements BlockBreakableE
     @Override
     public String getName()
     {
-        return "Auto-Melting";
+        return "Авто-плавка";
     }
 
     @Override
@@ -113,6 +113,12 @@ public class Melting extends Enchant<BlockBreakEvent> implements BlockBreakableE
     public EnchantTarget getTarget()
     {
         return EnchantTarget.TOOLS;
+    }
+
+    @Override
+    public int getChance()
+    {
+        return 6;
     }
 
     public static Map<Material, ItemStack> getMelted()

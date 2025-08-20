@@ -71,4 +71,10 @@ public class Boomber extends Enchant<ProjectileHitEvent>
     {
         return EnchantTarget.TRIDENT;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 7;
+    }
 }

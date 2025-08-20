@@ -110,4 +110,10 @@ public class MegaBulldozer extends Enchant<BlockBreakEvent> implements BlockBrea
     {
         return EnchantTarget.TOOLS;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 0;
+    }
 }

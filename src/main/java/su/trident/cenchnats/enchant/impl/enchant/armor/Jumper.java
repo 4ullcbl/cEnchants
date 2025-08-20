@@ -79,4 +79,10 @@ public class Jumper extends Enchant<PlayerArmorChangeEvent>
     {
         return EnchantTarget.BOOTS;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 10;
+    }
 }

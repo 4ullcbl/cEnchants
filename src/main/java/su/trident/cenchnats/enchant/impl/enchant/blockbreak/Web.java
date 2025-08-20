@@ -103,4 +103,10 @@ public class Web extends Enchant<BlockBreakEvent> implements BlockBreakableEncha
     {
         return EnchantTarget.TOOLS;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 6;
+    }
 }

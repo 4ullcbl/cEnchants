@@ -164,4 +164,10 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
     {
         return EnchantTarget.TOOLS;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 8;
+    }
 }

@@ -92,4 +92,10 @@ public class Greener extends Enchant<PlayerInteractEvent>
     {
         return EnchantTarget.TOOLS;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 5;
+    }
 }

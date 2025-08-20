@@ -6,7 +6,7 @@
 
   <groupId>su.trident</groupId>
   <artifactId>cEnchnats</artifactId>
-  <version>ALPHA</version>
+  <version>BETA</version>
   <packaging>jar</packaging>
 
   <name>cEnchants</name>

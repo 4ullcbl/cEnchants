@@ -89,4 +89,10 @@ public class Vampiring extends Enchant<EntityDamageByEntityEvent>
     {
         return EnchantTarget.WEAPON;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 7;
+    }
 }

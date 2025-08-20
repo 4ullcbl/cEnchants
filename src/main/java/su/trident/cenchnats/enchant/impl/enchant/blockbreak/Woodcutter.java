@@ -100,4 +100,10 @@ public class Woodcutter extends Enchant<BlockBreakEvent> implements BlockBreakab
     {
         return EnchantTarget.AXES;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 5;
+    }
 }

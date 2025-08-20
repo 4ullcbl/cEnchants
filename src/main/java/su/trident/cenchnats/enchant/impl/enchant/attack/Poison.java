@@ -92,4 +92,10 @@ public class Poison extends Enchant<EntityDamageByEntityEvent>
     {
         return EnchantTarget.WEAPON;
     }
+
+    @Override
+    public int getChance()
+    {
+        return 10;
+    }
 }
