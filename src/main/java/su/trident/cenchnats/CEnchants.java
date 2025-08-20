@@ -12,18 +12,19 @@ import su.trident.cenchnats.enchant.impl.EnchantStorage;
 import su.trident.cenchnats.github.UpdateCheck;
 import su.trident.cenchnats.listener.EnchantTableListener;
 import su.trident.cenchnats.listener.PrepareAnvilListener;
+import su.trident.cenchnats.util.config.CustomConfig;
 import su.trident.cenchnats.util.worldguard.WorldGuardUtil;
 
 import java.util.Objects;
 
 public final class CEnchants extends JavaPlugin
 {
-
     private long start;
 
     private EnchantRegister register;
     private EnchantStorageAPI storage;
     private WorldGuardUtil worldGuardUtil;
+    private CustomConfig enchantsConfig;
 
     @Override
     public void onLoad()
@@ -34,8 +35,11 @@ public final class CEnchants extends JavaPlugin
     @Override
     public void onEnable()
     {
-        final UpdateCheck uc = new UpdateCheck(this, "4ullcbl/cEnchants");
-        uc.checkLast();
+        enchantsConfig = new CustomConfig(this, "enchants", "enchants");
+        enchantsConfig.getFile().set("in_dev", true);
+        enchantsConfig.saveSettings();
+
+        saveDefaultConfig();
 
         final RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 
@@ -51,6 +55,7 @@ public final class CEnchants extends JavaPlugin
         final long launchTime = (System.currentTimeMillis() - start) / 1000;
 
         getLogger().info(getColorFromLaunch(launchTime) + "Запуск за " + launchTime + "сек.");
+        startUpdateCheck();
     }
 
     private ChatColor getColorFromLaunch(long launch)
@@ -62,6 +67,13 @@ public final class CEnchants extends JavaPlugin
         }
 
         return ChatColor.RED;
+    }
+
+    private void startUpdateCheck() {
+        if (this.getConfig().getBoolean("update-check")) {
+            final UpdateCheck uc = new UpdateCheck(this, "4ullcbl/cEnchants");
+            uc.checkLast();
+        }
     }
 
     public EnchantRegister getRegister()
@@ -77,5 +89,10 @@ public final class CEnchants extends JavaPlugin
     public WorldGuardUtil getWorldGuardUtil()
     {
         return worldGuardUtil;
+    }
+
+    public CustomConfig getEnchantsConfig()
+    {
+        return enchantsConfig;
     }
 }

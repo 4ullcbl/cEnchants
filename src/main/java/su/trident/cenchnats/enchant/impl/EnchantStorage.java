@@ -156,12 +156,23 @@ public class EnchantStorage implements EnchantStorageAPI
 
     private String getLoreEnch(Enchant<?> enchant, int level)
     {
-        return ChatColor.translateAlternateColorCodes('&', "&r&7" + enchant.getName() + " " + NumberUtil.toRoman(level));
+        return (!enchant.isCurse())
+                ? ChatColor.translateAlternateColorCodes(
+                '&', "&r&7" + enchant.getName() + " " + NumberUtil.toRoman(level))
+                : ChatColor.translateAlternateColorCodes(
+                '&', "&r&c" + enchant.getName() + " " + NumberUtil.toRoman(level));
     }
 
     @Override
     public void removeAllEnchant(ItemStack stack)
     {
+        if (stack == null || stack.getItemMeta() == null || stack.getType().isAir()) return;
+
+        for (Enchant<?> e : getAll(stack)) {
+            if (!hasEnchant(stack, e)) continue;
+
+            removeEnchant(stack, e);
+        }
     }
 
     @Override
@@ -183,14 +194,14 @@ public class EnchantStorage implements EnchantStorageAPI
     }
 
     @Override
-    public List<Enchant<?>> getAll(ItemStack itemStack)
+    public List<Enchant<?>> getAll(ItemStack stack)
     {
         final List<Enchant<?>> enchants = new ArrayList<>();
 
-        if (itemStack == null || itemStack.getItemMeta() == null) return enchants;
+        if (stack == null || stack.getItemMeta() == null) return enchants;
 
         for (Enchant<?> e : Enchant.getKeys().values()) {
-            if (itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(e.getPlugin(), e.getKey()), PersistentDataType.INTEGER))
+            if (stack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(e.getPlugin(), e.getKey()), PersistentDataType.INTEGER))
                 enchants.add(e);
         }
 

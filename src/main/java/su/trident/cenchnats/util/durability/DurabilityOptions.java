@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import su.trident.cenchnats.enchant.EnchantTarget;
 
 public class DurabilityOptions
 {
@@ -35,11 +36,12 @@ public class DurabilityOptions
         if (!(item.getItemMeta() instanceof Damageable damageableMeta)) return;
 
         if (!isDamageable(item)) return;
+        if (item.getType() == Material.ENCHANTED_BOOK && !EnchantTarget.ALL.isType(item.getType())) return;
 
         final PlayerItemDamageEvent event = new PlayerItemDamageEvent(player, item, damage);
         event.callEvent();
 
-        damage = getDamageСonsideringEnchant(item, damage);
+        damage = getDamageConsideringEnchant(item, damage);
 
         if (event.isCancelled()) return;
 
@@ -54,7 +56,7 @@ public class DurabilityOptions
         }
     }
 
-    private static int getDamageСonsideringEnchant(@NotNull ItemStack item, int damage)
+    private static int getDamageConsideringEnchant(@NotNull ItemStack item, int damage)
     {
         if (hasEnchantmentLevel(item, Enchantment.DURABILITY, 1)) {
             damage = (int) (damage / 1.5);
@@ -72,7 +74,8 @@ public class DurabilityOptions
     }
 
 
-    public static boolean hasEnchantmentLevel(ItemStack item, Enchantment enchantment, int level) {
+    public static boolean hasEnchantmentLevel(ItemStack item, Enchantment enchantment, int level)
+    {
         if (item == null || !item.hasItemMeta()) {
             return false;
         }

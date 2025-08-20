@@ -16,7 +16,14 @@ public class CustomConfig
     public CustomConfig(JavaPlugin plugin, String configName)
     {
         this.plugin = plugin;
-        this.configFile = new File(this.plugin.getDataFolder(), configName);
+        this.configFile = new File(this.plugin.getDataFolder(), configName + ".yml");
+        this.configuration = YamlConfiguration.loadConfiguration(configFile);
+    }
+
+    public CustomConfig(JavaPlugin plugin, String configName, String newFolder)
+    {
+        this.plugin = plugin;
+        this.configFile = new File(this.plugin.getDataFolder() + "/" + newFolder, configName + ".yml");
         this.configuration = YamlConfiguration.loadConfiguration(configFile);
     }
 

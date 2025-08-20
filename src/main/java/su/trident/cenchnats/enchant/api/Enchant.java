@@ -90,6 +90,10 @@ public abstract class Enchant<T extends Event> implements Listener
                 .get(new NamespacedKey(enchant.getPlugin(), enchant.getKey()), PersistentDataType.INTEGER)).orElse(0);
     }
 
+    public boolean isCurse() {
+        return false;
+    }
+
     public abstract int getPriority();
 
     public abstract String getName();

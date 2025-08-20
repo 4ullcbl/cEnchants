@@ -25,6 +25,8 @@ public class UpdateCheck
 
     public void checkLast()
     {
+        this.plugin.getLogger().info(ChatColor.GOLD + "Проверка обновлений...");
+
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
             try {
@@ -42,7 +44,7 @@ public class UpdateCheck
                     versionInfoMessages(currentVersion, latestVersion);
 
                 } else {
-                    this.plugin.getLogger().warning("Не удалось проверить обновление. Код: " + conn.getResponseCode());
+                    this.plugin.getLogger().info(ChatColor.DARK_RED + "Не удалось проверить обновление. Error: " + conn.getResponseCode());
                 }
 
                 conn.disconnect();

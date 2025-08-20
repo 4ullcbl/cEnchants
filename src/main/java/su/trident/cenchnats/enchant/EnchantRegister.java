@@ -16,16 +16,17 @@ import su.trident.cenchnats.enchant.impl.enchant.attack.Poison;
 import su.trident.cenchnats.enchant.impl.enchant.attack.Vampiring;
 import su.trident.cenchnats.enchant.impl.enchant.blockbreak.*;
 import su.trident.cenchnats.enchant.impl.enchant.interact.Greener;
+import su.trident.cenchnats.enchant.impl.enchant.itembreak.NotStable;
 import su.trident.cenchnats.enchant.impl.enchant.itembreak.Ping;
 import su.trident.cenchnats.enchant.impl.enchant.projectilehit.*;
 
 public class EnchantRegister
 {
-
     private final Enchant<BlockBreakEvent> bulldozer;
     private final Enchant<BlockBreakEvent> melting;
     private final Enchant<BlockBreakEvent> magnet;
     private final Enchant<PlayerItemDamageEvent> pinger;
+    private final Enchant<PlayerItemDamageEvent> notStable;
     private final Enchant<BlockBreakEvent> web;
     private final Enchant<BlockBreakEvent> megaBulldozer;
     private final Enchant<BlockBreakEvent> woodCutter;
@@ -44,7 +45,6 @@ public class EnchantRegister
 
     public EnchantRegister(CEnchants plugin)
     {
-
         this.bulldozer = new Bulldozer("bulldozer", plugin);
         this.bulldozer.register();
 
@@ -101,6 +101,9 @@ public class EnchantRegister
 
         this.vamping = new Vampiring("vamp", plugin);
         this.vamping.register();
+
+        this.notStable = new NotStable("not_stable", plugin);
+        this.notStable.register();
     }
 
     public Enchant<PlayerArmorChangeEvent> getJumper()
