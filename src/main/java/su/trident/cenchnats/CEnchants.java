@@ -12,6 +12,7 @@ import su.trident.cenchnats.enchant.impl.EnchantStorage;
 import su.trident.cenchnats.github.UpdateCheck;
 import su.trident.cenchnats.listener.EnchantTableListener;
 import su.trident.cenchnats.listener.PrepareAnvilListener;
+import su.trident.cenchnats.listener.RemoveCustomEnchant;
 import su.trident.cenchnats.util.config.CustomConfig;
 import su.trident.cenchnats.util.worldguard.WorldGuardUtil;
 
@@ -51,6 +52,7 @@ public final class CEnchants extends JavaPlugin
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
         getServer().getPluginManager().registerEvents(new PrepareAnvilListener(this), this);
         getServer().getPluginManager().registerEvents(new EnchantTableListener(this), this);
+        getServer().getPluginManager().registerEvents(new RemoveCustomEnchant(this), this);
 
         final long launchTime = (System.currentTimeMillis() - start) / 1000;
 

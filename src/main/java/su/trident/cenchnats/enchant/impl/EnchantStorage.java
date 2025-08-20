@@ -3,6 +3,7 @@ package su.trident.cenchnats.enchant.impl;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -41,6 +42,172 @@ public class EnchantStorage implements EnchantStorageAPI
         if (!(enchant.getTarget().isType(stack.getType()))) return;
 
         safelyAddEnchant(stack, stack.getItemMeta(), enchant, lvl);
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public void removeEnchant(ItemStack stack, Enchant<?> enchant)
+    {
+        if (!hasEnchant(stack, enchant)) return;
+        if (enchant.isCurse()) return;
+
+        if (stack.getItemMeta() == null || stack.getType().isEmpty() || stack.getLore() == null || stack.getLore().isEmpty())
+            return;
+
+        final ItemMeta meta = stack.getItemMeta();
+
+        removePdcAndLore(enchant, stack, meta);
+    }
+
+    @Override
+    public void removeEnchantAll(ItemStack stack)
+    {
+        if (stack == null || stack.getItemMeta() == null || stack.getType().isAir()) return;
+
+        for (Enchant<?> e : getAll(stack)) {
+            if (e.isCurse()) continue;
+            if (!hasEnchant(stack, e)) continue;
+
+            removeEnchant(stack, e);
+        }
+    }
+
+    @Override
+    public void removeEnchantAll(ItemStack stack, boolean vanilla)
+    {
+        removeEnchantAll(stack);
+
+        if (vanilla) {
+            for (Enchantment e: stack.getEnchantments().keySet()) {
+                stack.removeEnchantment(e);
+            }
+        }
+    }
+
+    @Override
+    public ItemStack book(Enchant<?> enchant, int level)
+    {
+        final ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
+
+        addEnchantSave(book, enchant, level);
+
+        return book;
+    }
+
+    @Override
+    public boolean hasEnchant(ItemStack stack, Enchant<?> enchant)
+    {
+        final ItemMeta meta = stack.getItemMeta();
+
+        return meta.getPersistentDataContainer().has(new NamespacedKey(this.plugin, enchant.getKey()), PersistentDataType.INTEGER);
+    }
+
+    @Override
+    public List<Enchant<?>> getAll(ItemStack stack)
+    {
+        final List<Enchant<?>> enchants = new ArrayList<>();
+
+        if (stack == null || stack.getItemMeta() == null) return enchants;
+
+        for (Enchant<?> e : Enchant.getKeys().values()) {
+            if (stack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(e.getPlugin(), e.getKey()), PersistentDataType.INTEGER))
+                enchants.add(e);
+        }
+
+        return enchants;
+    }
+
+    @Override
+    public List<Enchant<?>> getRandom()
+    {
+        final List<Enchant<?>> result = new ArrayList<>();
+
+        for (String key : Enchant.keySet()) {
+            if (random.nextInt(100) > Enchant.getByKey(key).getChance()) continue;
+            result.add(Enchant.getByKey(key));
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Enchant<?>> getRandom(int count)
+    {
+        final List<Enchant<?>> result = new ArrayList<>();
+
+        for (String key : Enchant.keySet()) {
+            if (random.nextInt(100) > Enchant.getByKey(key).getChance()) continue;
+
+            if (result.size() <= count) {
+                result.add(Enchant.getByKey(key));
+                continue;
+            }
+            return result;
+        }
+
+        return result;
+    }
+
+    @Override
+    public int getLevel(ItemStack item, Enchant<?> e)
+    {
+        final NamespacedKey key = new NamespacedKey(e.getPlugin(), e.getKey());
+
+        return Optional.ofNullable(item.getItemMeta()
+                        .getPersistentDataContainer()
+                        .get(key, PersistentDataType.INTEGER))
+                .orElse(0);
+    }
+
+    @Override
+    public int getLevelSave(ItemStack item, Enchant<?> e)
+    {
+        if (item == null || item.getItemMeta() == null || item.getType().isEmpty()) return 0;
+
+        final NamespacedKey key = new NamespacedKey(e.getPlugin(), e.getKey());
+
+        return Optional.ofNullable(item.getItemMeta()
+                        .getPersistentDataContainer()
+                        .get(key, PersistentDataType.INTEGER))
+                .orElse(0);
+    }
+
+    @Override
+    public int getRandomLevel(Enchant<?> enchant)
+    {
+        if (enchant.getStartLvl() == enchant.getMaxLvl()) return enchant.getStartLvl();
+
+        int range = enchant.getMaxLvl() - enchant.getStartLvl() + 1;
+        return random.nextInt(range) + enchant.getStartLvl();
+    }
+
+    @SuppressWarnings("deprecation")
+    private void removePdcAndLore(Enchant<?> enchant, ItemStack stack, ItemMeta meta)
+    {
+        final int level = getLevel(stack, enchant);
+
+        if (level == 0) return;
+
+        if (meta.getLore() == null) return;
+
+        final List<String> lore = meta.getLore();
+
+        if (enchant.isCurse()) return;
+
+        lore.removeIf(s -> ChatColor.stripColor(s).startsWith(enchant.getName()));
+
+        meta.getPersistentDataContainer().remove(new NamespacedKey(this.plugin, enchant.getKey()));
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+    }
+
+    private String getLoreEnch(Enchant<?> enchant, int level)
+    {
+        return (!enchant.isCurse())
+                ? ChatColor.translateAlternateColorCodes(
+                '&', "&r&7" + enchant.getName() + " " + NumberUtil.toRoman(level))
+                : ChatColor.translateAlternateColorCodes(
+                '&', "&r&c" + enchant.getName() + " " + NumberUtil.toRoman(level));
     }
 
     @SuppressWarnings("deprecation")
@@ -120,156 +287,5 @@ public class EnchantStorage implements EnchantStorageAPI
         if (lore.contains(text)) return;
 
         lore.add(text);
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public void removeEnchant(ItemStack stack, Enchant<?> enchant)
-    {
-        if (!hasEnchant(stack, enchant)) return;
-
-        if (stack.getItemMeta() == null || stack.getType().isEmpty() || stack.getLore() == null || stack.getLore().isEmpty())
-            return;
-
-        final ItemMeta meta = stack.getItemMeta();
-
-        removePdcAndLore(enchant, stack, meta);
-    }
-
-    @SuppressWarnings("deprecation")
-    private void removePdcAndLore(Enchant<?> enchant, ItemStack stack, ItemMeta meta)
-    {
-        final int level = getLevel(stack, enchant);
-
-        if (level == 0) return;
-
-        if (meta.getLore() == null) return;
-
-        final List<String> lore = meta.getLore();
-
-        lore.removeIf(s -> ChatColor.stripColor(s).startsWith(enchant.getName()));
-
-        meta.getPersistentDataContainer().remove(new NamespacedKey(this.plugin, enchant.getKey()));
-        meta.setLore(lore);
-        stack.setItemMeta(meta);
-    }
-
-    private String getLoreEnch(Enchant<?> enchant, int level)
-    {
-        return (!enchant.isCurse())
-                ? ChatColor.translateAlternateColorCodes(
-                '&', "&r&7" + enchant.getName() + " " + NumberUtil.toRoman(level))
-                : ChatColor.translateAlternateColorCodes(
-                '&', "&r&c" + enchant.getName() + " " + NumberUtil.toRoman(level));
-    }
-
-    @Override
-    public void removeAllEnchant(ItemStack stack)
-    {
-        if (stack == null || stack.getItemMeta() == null || stack.getType().isAir()) return;
-
-        for (Enchant<?> e : getAll(stack)) {
-            if (!hasEnchant(stack, e)) continue;
-
-            removeEnchant(stack, e);
-        }
-    }
-
-    @Override
-    public ItemStack book(Enchant<?> enchant, int level)
-    {
-        final ItemStack book = new ItemStack(Material.ENCHANTED_BOOK);
-
-        addEnchantSave(book, enchant, level);
-
-        return book;
-    }
-
-    @Override
-    public boolean hasEnchant(ItemStack stack, Enchant<?> enchant)
-    {
-        final ItemMeta meta = stack.getItemMeta();
-
-        return meta.getPersistentDataContainer().has(new NamespacedKey(this.plugin, enchant.getKey()), PersistentDataType.INTEGER);
-    }
-
-    @Override
-    public List<Enchant<?>> getAll(ItemStack stack)
-    {
-        final List<Enchant<?>> enchants = new ArrayList<>();
-
-        if (stack == null || stack.getItemMeta() == null) return enchants;
-
-        for (Enchant<?> e : Enchant.getKeys().values()) {
-            if (stack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(e.getPlugin(), e.getKey()), PersistentDataType.INTEGER))
-                enchants.add(e);
-        }
-
-        return enchants;
-    }
-
-    @Override
-    public List<Enchant<?>> getRandom()
-    {
-        final List<Enchant<?>> result = new ArrayList<>();
-
-        for (String key : Enchant.keySet()) {
-            if (random.nextInt(100) > Enchant.getByKey(key).getChance()) continue;
-            result.add(Enchant.getByKey(key));
-        }
-
-        return result;
-    }
-
-    @Override
-    public List<Enchant<?>> getRandom(int count)
-    {
-        final List<Enchant<?>> result = new ArrayList<>();
-
-        for (String key : Enchant.keySet()) {
-            if (random.nextInt(100) > Enchant.getByKey(key).getChance()) continue;
-
-            if (result.size() <= count) {
-                result.add(Enchant.getByKey(key));
-                continue;
-            }
-            return result;
-        }
-
-        return result;
-    }
-
-
-    @Override
-    public int getLevel(ItemStack item, Enchant<?> e)
-    {
-        final NamespacedKey key = new NamespacedKey(e.getPlugin(), e.getKey());
-
-        return Optional.ofNullable(item.getItemMeta()
-                        .getPersistentDataContainer()
-                        .get(key, PersistentDataType.INTEGER))
-                .orElse(0);
-    }
-
-    @Override
-    public int getLevelSave(ItemStack item, Enchant<?> e)
-    {
-        if (item == null || item.getItemMeta() == null || item.getType().isEmpty()) return 0;
-
-        final NamespacedKey key = new NamespacedKey(e.getPlugin(), e.getKey());
-
-        return Optional.ofNullable(item.getItemMeta()
-                        .getPersistentDataContainer()
-                        .get(key, PersistentDataType.INTEGER))
-                .orElse(0);
-    }
-
-    @Override
-    public int getRandomLevel(Enchant<?> enchant)
-    {
-        if (enchant.getStartLvl() == enchant.getMaxLvl()) return enchant.getStartLvl();
-
-        int range = enchant.getMaxLvl() - enchant.getStartLvl() + 1;
-        return random.nextInt(range) + enchant.getStartLvl();
     }
 }

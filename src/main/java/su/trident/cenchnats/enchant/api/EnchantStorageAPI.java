@@ -14,7 +14,9 @@ public interface EnchantStorageAPI
 
     void removeEnchant(ItemStack stack, Enchant<?> enchant);
 
-    void removeAllEnchant(ItemStack stack);
+    void removeEnchantAll(ItemStack stack);
+
+    void removeEnchantAll(ItemStack stack, boolean vanilla);
 
     boolean hasEnchant(ItemStack stack, Enchant<?> enchant);
 
