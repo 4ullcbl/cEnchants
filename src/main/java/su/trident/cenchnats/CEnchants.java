@@ -37,7 +37,6 @@ public final class CEnchants extends JavaPlugin
     public void onEnable()
     {
         enchantsConfig = new CustomConfig(this, "enchants", "enchants");
-        enchantsConfig.getFile().set("in_dev", true);
         enchantsConfig.saveSettings();
 
         saveDefaultConfig();

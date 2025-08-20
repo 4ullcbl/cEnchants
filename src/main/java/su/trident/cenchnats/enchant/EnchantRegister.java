@@ -200,4 +200,9 @@ public class EnchantRegister
     {
         return vamping;
     }
+
+    public Enchant<PlayerItemDamageEvent> getNotStable()
+    {
+        return notStable;
+    }
 }

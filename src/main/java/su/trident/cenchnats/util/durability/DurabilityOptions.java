@@ -1,7 +1,6 @@
 package su.trident.cenchnats.util.durability;
 
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;

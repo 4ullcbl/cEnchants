@@ -1,28 +1,30 @@
 package su.trident.cenchnats.command;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import su.trident.cenchnats.CEnchants;
+import su.trident.cenchnats.command.api.ArgumentExecutor;
+import su.trident.cenchnats.command.impl.AddEnchant;
+import su.trident.cenchnats.command.impl.GiveBook;
 import su.trident.cenchnats.enchant.api.Enchant;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class GiveEnchant implements CommandExecutor, TabExecutor
 {
-    private final CEnchants plugin;
+    private final static Map<String, ArgumentExecutor> arguments = new HashMap<>();
 
     public GiveEnchant(CEnchants plugin)
     {
-        this.plugin = plugin;
+        arguments.put("add", new AddEnchant(plugin));
+        arguments.put("book", new GiveBook(plugin));
     }
 
     @Override
@@ -30,27 +32,20 @@ public class GiveEnchant implements CommandExecutor, TabExecutor
     {
         final Player player = (Player) sender;
 
-        final ItemStack item = player.getInventory().getItemInMainHand();
-
-        final String arg = args[0];
-
-        try {
-            final int lvl = Integer.parseInt(args[1]);
-
-            for (String key : Enchant.keySet()) {
-                if (Objects.equals(key, arg)) {
-                    plugin.getStorage().addEnchantSave(item, Enchant.getByKey(key), lvl);
-                    player.getInventory().addItem(plugin.getStorage().book(Enchant.getByKey(key), lvl));
-                }
-            }
-
-            player.sendMessage("Вы зачаровали предмет в руке!");
-            player.playSound(player.getEyeLocation(), Sound.ENTITY_VILLAGER_YES, 1, 1);
+        if (args.length == 0) {
+            sendHelp(player);
             return true;
-        } catch (Exception e) {
-            player.sendMessage("usage: /ench <type> <level>");
-            player.playSound(player.getEyeLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
         }
+
+        final String argument = args[0].toLowerCase();
+        final ArgumentExecutor executor = arguments.get(argument);
+
+        if (executor == null) {
+            sendHelp(player);
+            return true;
+        }
+
+        executor.execute(player, args);
         return true;
     }
 
@@ -60,11 +55,18 @@ public class GiveEnchant implements CommandExecutor, TabExecutor
         final List<String> tab = new ArrayList<>();
 
         if (args.length == 1) {
-            tab.addAll(Enchant.keySet());
+            tab.addAll(arguments.keySet());
         } else if (args.length == 2) {
-            tab.add("[<level>]");
+            tab.addAll(Enchant.keySet());
         }
 
         return tab;
+    }
+
+    private void sendHelp(Player player)
+    {
+        for (ArgumentExecutor argument : arguments.values()) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9cEnchants:&c используйте: %s".formatted(argument.getUsage())));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9cEnchants:&c &7описание: %s".formatted(argument.getDesc())));        }
     }
 }
