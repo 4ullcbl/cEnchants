@@ -4,7 +4,6 @@ import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -125,12 +124,6 @@ public class LavaWalker extends Enchant<PlayerArmorChangeEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Лаваход";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -152,11 +145,5 @@ public class LavaWalker extends Enchant<PlayerArmorChangeEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.BOOTS;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 5;
     }
 }

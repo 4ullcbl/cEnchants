@@ -43,12 +43,6 @@ public class Boomber extends Enchant<ProjectileHitEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Подрывник";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -70,11 +64,5 @@ public class Boomber extends Enchant<ProjectileHitEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.TRIDENT;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 7;
     }
 }

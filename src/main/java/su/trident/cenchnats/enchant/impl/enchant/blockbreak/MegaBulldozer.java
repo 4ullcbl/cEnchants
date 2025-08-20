@@ -82,12 +82,6 @@ public class MegaBulldozer extends Enchant<BlockBreakEvent> implements BlockBrea
     }
 
     @Override
-    public String getName()
-    {
-        return "Мега-бульдозер";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -109,11 +103,5 @@ public class MegaBulldozer extends Enchant<BlockBreakEvent> implements BlockBrea
     public EnchantTarget getTarget()
     {
         return EnchantTarget.TOOLS;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 0;
     }
 }

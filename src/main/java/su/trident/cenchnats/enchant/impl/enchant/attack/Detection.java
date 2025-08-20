@@ -64,12 +64,6 @@ public class Detection extends Enchant<EntityDamageByEntityEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Детекция";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -91,12 +85,6 @@ public class Detection extends Enchant<EntityDamageByEntityEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.WEAPON;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 10;
     }
 }
 

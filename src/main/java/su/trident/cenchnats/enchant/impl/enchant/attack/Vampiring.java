@@ -61,12 +61,6 @@ public class Vampiring extends Enchant<EntityDamageByEntityEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Вампиризм";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -88,11 +82,5 @@ public class Vampiring extends Enchant<EntityDamageByEntityEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.WEAPON;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 7;
     }
 }

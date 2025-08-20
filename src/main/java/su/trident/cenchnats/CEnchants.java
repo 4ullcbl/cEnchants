@@ -3,6 +3,7 @@ package su.trident.cenchnats;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import su.trident.cenchnats.command.GiveEnchant;
 import su.trident.cenchnats.context.blockbreak.BlockBreakListener;
@@ -13,7 +14,6 @@ import su.trident.cenchnats.github.UpdateCheck;
 import su.trident.cenchnats.listener.EnchantTableListener;
 import su.trident.cenchnats.listener.PrepareAnvilListener;
 import su.trident.cenchnats.listener.RemoveCustomEnchant;
-import su.trident.cenchnats.util.config.CustomConfig;
 import su.trident.cenchnats.util.worldguard.WorldGuardUtil;
 
 import java.util.Objects;
@@ -25,7 +25,6 @@ public final class CEnchants extends JavaPlugin
     private EnchantRegister register;
     private EnchantStorageAPI storage;
     private WorldGuardUtil worldGuardUtil;
-    private CustomConfig enchantsConfig;
 
     @Override
     public void onLoad()
@@ -36,9 +35,6 @@ public final class CEnchants extends JavaPlugin
     @Override
     public void onEnable()
     {
-        enchantsConfig = new CustomConfig(this, "enchants", "enchants");
-        enchantsConfig.saveSettings();
-
         saveDefaultConfig();
 
         final RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
@@ -70,7 +66,8 @@ public final class CEnchants extends JavaPlugin
         return ChatColor.RED;
     }
 
-    private void startUpdateCheck() {
+    private void startUpdateCheck()
+    {
         if (this.getConfig().getBoolean("update-check")) {
             final UpdateCheck uc = new UpdateCheck(this, "4ullcbl/cEnchants");
             uc.checkLast();
@@ -92,8 +89,4 @@ public final class CEnchants extends JavaPlugin
         return worldGuardUtil;
     }
 
-    public CustomConfig getEnchantsConfig()
-    {
-        return enchantsConfig;
-    }
 }

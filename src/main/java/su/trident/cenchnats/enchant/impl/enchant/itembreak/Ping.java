@@ -43,12 +43,6 @@ public class Ping extends Enchant<PlayerItemDamageEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Пингер";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -70,11 +64,5 @@ public class Ping extends Enchant<PlayerItemDamageEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.ALL;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 15;
     }
 }

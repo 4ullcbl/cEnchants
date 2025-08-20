@@ -91,12 +91,6 @@ public class Magnet extends Enchant<BlockBreakEvent> implements BlockBreakableEn
     }
 
     @Override
-    public String getName()
-    {
-        return "Магнит";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -118,12 +112,6 @@ public class Magnet extends Enchant<BlockBreakEvent> implements BlockBreakableEn
     public EnchantTarget getTarget()
     {
         return EnchantTarget.TOOLS;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 5;
     }
 
     public static List<Material> getMagnitude()

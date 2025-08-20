@@ -65,12 +65,6 @@ public class Stupor extends Enchant<ProjectileHitEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Ступор";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -92,11 +86,5 @@ public class Stupor extends Enchant<ProjectileHitEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.TRIDENT;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 7;
     }
 }

@@ -48,12 +48,6 @@ public class Comeback extends Enchant<ProjectileHitEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Возвращение";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -75,11 +69,5 @@ public class Comeback extends Enchant<ProjectileHitEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.TRIDENT;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 7;
     }
 }

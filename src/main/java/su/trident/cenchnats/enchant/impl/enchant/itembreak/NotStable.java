@@ -54,12 +54,6 @@ public class NotStable extends Enchant<PlayerItemDamageEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Нестабильный";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -75,12 +69,6 @@ public class NotStable extends Enchant<PlayerItemDamageEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.ALL;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 5;
     }
 
     @Override

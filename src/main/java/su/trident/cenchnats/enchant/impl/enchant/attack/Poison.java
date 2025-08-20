@@ -64,12 +64,6 @@ public class Poison extends Enchant<EntityDamageByEntityEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Яд";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -91,11 +85,5 @@ public class Poison extends Enchant<EntityDamageByEntityEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.WEAPON;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 10;
     }
 }

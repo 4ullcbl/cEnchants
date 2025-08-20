@@ -49,12 +49,6 @@ public class Sniper extends Enchant<EntityShootBowEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Снайпер";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -76,11 +70,5 @@ public class Sniper extends Enchant<EntityShootBowEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.BOW;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 10;
     }
 }

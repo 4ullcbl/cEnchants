@@ -36,7 +36,7 @@ public class Woodcutter extends Enchant<BlockBreakEvent> implements BlockBreakab
 
         final List<Block> toBreak = getBlocksToBreak(context);
 
-        if (toBreak.isEmpty()|| toBreak.size() == 1) return;
+        if (toBreak.isEmpty() || toBreak.size() == 1) return;
 
         context.getAffectedBlocks().addAll(toBreak);
 
@@ -52,7 +52,8 @@ public class Woodcutter extends Enchant<BlockBreakEvent> implements BlockBreakab
         context.getDrops().addAll(dropToAdd);
     }
 
-    private List<Block> getBlocksToBreak(BlockBreakContext context) {
+    private List<Block> getBlocksToBreak(BlockBreakContext context)
+    {
         boolean isFirstMode = hasEnchant(context.getTool(), 1);
 
         return isFirstMode
@@ -69,12 +70,6 @@ public class Woodcutter extends Enchant<BlockBreakEvent> implements BlockBreakab
     public int getPriority()
     {
         return 8;
-    }
-
-    @Override
-    public String getName()
-    {
-        return "Дровосек";
     }
 
     @Override
@@ -99,11 +94,5 @@ public class Woodcutter extends Enchant<BlockBreakEvent> implements BlockBreakab
     public EnchantTarget getTarget()
     {
         return EnchantTarget.AXES;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 5;
     }
 }

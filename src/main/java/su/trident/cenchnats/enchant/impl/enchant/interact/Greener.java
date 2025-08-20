@@ -64,12 +64,6 @@ public class Greener extends Enchant<PlayerInteractEvent>
     }
 
     @Override
-    public String getName()
-    {
-        return "Озеленитель";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -91,11 +85,5 @@ public class Greener extends Enchant<PlayerInteractEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.TOOLS;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 5;
     }
 }

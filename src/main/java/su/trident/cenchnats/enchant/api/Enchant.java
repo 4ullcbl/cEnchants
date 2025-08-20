@@ -1,6 +1,9 @@
 package su.trident.cenchnats.enchant.api;
 
+import de.schlichtherle.io.File;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,15 +20,19 @@ import java.util.Set;
 
 public abstract class Enchant<T extends Event> implements Listener
 {
-
     private final String key;
     private final CEnchants plugin;
+
+    private String name;
+    private int chance;
 
     protected Enchant(String key, CEnchants plugin)
     {
         this.key = key;
         this.plugin = plugin;
     }
+
+    private String configPath;
 
     private static final Map<String, Enchant<?>> byKey = new HashMap<>();
 
@@ -49,10 +56,32 @@ public abstract class Enchant<T extends Event> implements Listener
 
     public void register()
     {
+        loadConfig();
         byKey.put(this.getKey(), this);
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
 
-        this.plugin.getLogger().info("Register enchant: " + this.getName() + " " + this.getStartLvl() + "-" + this.getMaxLvl());
+        this.plugin.getLogger().info(ChatColor.GREEN + "Регистрация зачарования: " + this.getName() + " " + this.getStartLvl() + "-" + this.getMaxLvl() + " Chance: " + getDefaultChance());
+    }
+
+    public void loadConfig() {
+        loadConfigPath();
+        loadDefaultName();
+        loadDefaultChance();
+
+        setDefault();
+    }
+
+    protected void loadDefaultName() {
+        name = getConfig().getString(configPath + "name");
+    }
+
+    protected void loadDefaultChance() {
+        chance = getConfig().getInt(configPath + "chance");
+    }
+
+    protected void loadConfigPath()
+    {
+        configPath = "enchants." + this.key + ".";
     }
 
     protected boolean hasEnchant(ItemStack stack)
@@ -94,9 +123,17 @@ public abstract class Enchant<T extends Event> implements Listener
         return false;
     }
 
+    protected void setDefault() {
+        getConfig().set(getConfigPath() + "name", name);
+        getConfig().set(getConfigPath() + "chance", chance);
+        plugin.saveConfig();
+    }
+
     public abstract int getPriority();
 
-    public abstract String getName();
+    public String getName() {
+        return getDefaultName();
+    }
 
     public abstract int getStartLvl();
 
@@ -104,7 +141,9 @@ public abstract class Enchant<T extends Event> implements Listener
 
     public abstract EnchantTarget getTarget();
 
-    public abstract int getChance();
+    public  int getChance() {
+        return getDefaultChance();
+    }
 
     public abstract String getKey();
 
@@ -112,4 +151,23 @@ public abstract class Enchant<T extends Event> implements Listener
     {
         return plugin;
     }
+
+    public String getConfigPath()
+    {
+        return configPath;
+    }
+
+    public FileConfiguration getConfig()
+    {
+        return plugin.getConfig();
+    }
+
+    public String getDefaultName() {
+        return this.name;
+    }
+
+    public int getDefaultChance() {
+        return this.chance;
+    }
+
 }

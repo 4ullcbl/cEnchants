@@ -2,18 +2,21 @@ package su.trident.cenchnats.enchant.impl.enchant.armor;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.event.EventHandler;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import su.trident.cenchnats.CEnchants;
 import su.trident.cenchnats.enchant.EnchantTarget;
 import su.trident.cenchnats.enchant.api.Enchant;
 
+import java.util.Objects;
+
 public class Jumper extends Enchant<PlayerArmorChangeEvent>
 {
 
     private final CEnchants plugin;
     private final String key;
+
+    private PotionEffect effect;
 
     public Jumper(String key, CEnchants plugin)
     {
@@ -33,27 +36,28 @@ public class Jumper extends Enchant<PlayerArmorChangeEvent>
         boolean isOldJumpBoots = hasEnchant(event.getOldItem());
 
         if (isOldJumpBoots && !isNewJumpBoots) {
-            event.getPlayer().removePotionEffect(PotionEffectType.JUMP);
+            event.getPlayer().removePotionEffect(effect.getType());
             return;
         }
 
         if (isNewJumpBoots) {
-            event.getPlayer().addPotionEffect(
-                    new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 0, false, false, false)
-            );
+            event.getPlayer().addPotionEffect(effect);
         }
+    }
+
+    @Override
+    public void loadConfig()
+    {
+        loadConfigPath();
+        loadDefaultName();
+        loadDefaultChance();
+        effect = new PotionEffect(Objects.requireNonNull(PotionEffectType.getByName(getConfig().getString(getConfigPath() + "potion_effect", "JUMP"))),Integer.MAX_VALUE, getConfig().getInt(getConfigPath() + "effect_amplifier") - 1, false, false, false);
     }
 
     @Override
     public int getPriority()
     {
         return 0;
-    }
-
-    @Override
-    public String getName()
-    {
-        return "Попрыгун";
     }
 
     @Override
@@ -78,11 +82,5 @@ public class Jumper extends Enchant<PlayerArmorChangeEvent>
     public EnchantTarget getTarget()
     {
         return EnchantTarget.BOOTS;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 10;
     }
 }

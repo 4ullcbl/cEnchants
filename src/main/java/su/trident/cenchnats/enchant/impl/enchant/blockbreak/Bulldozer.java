@@ -136,12 +136,6 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
     }
 
     @Override
-    public String getName()
-    {
-        return "Бульдозер";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -163,11 +157,5 @@ public class Bulldozer extends Enchant<BlockBreakEvent> implements BlockBreakabl
     public EnchantTarget getTarget()
     {
         return EnchantTarget.TOOLS;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 8;
     }
 }

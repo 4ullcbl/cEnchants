@@ -75,12 +75,6 @@ public class Web extends Enchant<BlockBreakEvent> implements BlockBreakableEncha
     }
 
     @Override
-    public String getName()
-    {
-        return "Паутина";
-    }
-
-    @Override
     public int getStartLvl()
     {
         return 1;
@@ -102,11 +96,5 @@ public class Web extends Enchant<BlockBreakEvent> implements BlockBreakableEncha
     public EnchantTarget getTarget()
     {
         return EnchantTarget.TOOLS;
-    }
-
-    @Override
-    public int getChance()
-    {
-        return 6;
     }
 }

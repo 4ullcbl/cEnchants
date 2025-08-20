@@ -2,3 +2,88 @@
 
 # Проверка плагина на обновления
 update-check: true
+
+enchants:
+
+  jumper:
+    name: Попрыгун
+    chance: 10
+    potion_effect: JUMP
+    effect_amplifier: 1
+
+  bulldozer:
+    name: Бульдозер
+    chance: 0
+
+  melting:
+    name: Авто-плавка
+    chance: 0
+
+  magnet:
+    name: Магнит
+    chance: 0
+
+  pinger:
+    name: Пингер
+    chance: 0
+
+  web:
+    name: Паутина
+    chance: 0
+
+  mega_bulldozer:
+    chance: 0
+    name: Мега-бульдозер
+
+  woodcutter:
+    name: Дровосек
+    chance: 0
+
+  lavawalker:
+    name: Лаваход
+    chance: 0
+
+  greener:
+    name: Озеленитель
+    chance: 0
+
+  stupor:
+    name: Ступор
+    chance: 0
+
+  scout:
+    name: Скаут
+    chance: 0
+
+  pulling:
+    name: Притяжение
+    chance: 0
+
+  comeback:
+    name: Возвращение
+    chance: 0
+
+  bomber:
+    name: Подрывник
+    chance: 0
+
+  sniper:
+    name: Снайпер
+    chance: 0
+
+  detect:
+    name: Детекция
+    chance: 0
+
+  poison:
+    name: Яд
+    chance: 0
+
+  vamp:
+    name: Вампиризм
+    chance: 0
+
+  not_stable:
+    name: Нестабильный
+    chance: 0
+
