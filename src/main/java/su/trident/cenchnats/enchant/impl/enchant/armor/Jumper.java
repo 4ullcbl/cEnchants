@@ -12,7 +12,6 @@ import java.util.Objects;
 
 public class Jumper extends Enchant<PlayerArmorChangeEvent>
 {
-
     private final CEnchants plugin;
     private final String key;
 
@@ -29,8 +28,7 @@ public class Jumper extends Enchant<PlayerArmorChangeEvent>
     @EventHandler
     public void usage(PlayerArmorChangeEvent event)
     {
-        if (event.getSlotType() != PlayerArmorChangeEvent.SlotType.FEET) return;
-        if (event.getNewItem() == null || event.getOldItem() == null) return;
+        if (event.getSlotType() != PlayerArmorChangeEvent.SlotType.FEET || event.getNewItem() == null || event.getOldItem() == null) return;
 
         boolean isNewJumpBoots = hasEnchant(event.getNewItem());
         boolean isOldJumpBoots = hasEnchant(event.getOldItem());
@@ -49,8 +47,7 @@ public class Jumper extends Enchant<PlayerArmorChangeEvent>
     public void loadConfig()
     {
         loadConfigPath();
-        loadDefaultName();
-        loadDefaultChance();
+        loadDefaultValue();
         effect = new PotionEffect(Objects.requireNonNull(PotionEffectType.getByName(getConfig().getString(getConfigPath() + "potion_effect", "JUMP"))),Integer.MAX_VALUE, getConfig().getInt(getConfigPath() + "effect_amplifier") - 1, false, false, false);
     }
 

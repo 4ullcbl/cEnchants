@@ -49,7 +49,7 @@ public class PrepareAnvilListener implements Listener
             if (level == 0) return; // getLevelSave() возвращает 0 при отсутствии чара
 
             this.plugin.getStorage().addEnchantSave(result, e, level);
-            cost += level;
+            cost += e.getAnvilCost() + level;
         }
 
         inventory.setRepairCost(Math.min(cost, 39));

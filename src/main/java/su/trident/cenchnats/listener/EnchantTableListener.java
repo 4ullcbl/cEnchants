@@ -20,10 +20,11 @@ public class EnchantTableListener implements Listener
     @EventHandler
     public void onEnchant(EnchantItemEvent event)
     {
-        if (event.getExpLevelCost() < 16) return;
         final List<Enchant<?>> toAdd = plugin.getStorage().getRandom();
 
         for (Enchant<?> e : toAdd) {
+            if (event.getExpLevelCost() < e.getMinTableLevel()) continue;
+
             plugin.getStorage().addEnchantSave(event.getItem(), e, plugin.getStorage().getRandomLevel(e));
         }
     }
