@@ -78,7 +78,7 @@ public class EnchantStorage implements EnchantStorageAPI
         removeEnchantAll(stack);
 
         if (vanilla) {
-            for (Enchantment e: stack.getEnchantments().keySet()) {
+            for (Enchantment e : stack.getEnchantments().keySet()) {
                 stack.removeEnchantment(e);
             }
         }
@@ -231,16 +231,13 @@ public class EnchantStorage implements EnchantStorageAPI
 
     private void upgradeEnchant(ItemStack stack, Enchant<?> enchant, int lvl)
     {
-        if (!isUpgradable(stack, enchant)) {
-            System.out.println("not is upgradable");
+        if (!isUpgradable(stack, enchant))
             return;
-        }
+
 
         int currentLevel = getLevel(stack, enchant);
-        if (currentLevel > lvl) {
-            System.out.println("clevel > lvl");
+        if (currentLevel > lvl)
             return;
-        }
 
         removeEnchant(stack, enchant);
 
@@ -266,16 +263,11 @@ public class EnchantStorage implements EnchantStorageAPI
         upgradable.setLore(lore);
 
         stack.setItemMeta(upgradable);
-
-        System.out.println("Upgraded " + enchant.getName() + " to level " + newLevel);
     }
 
     private boolean isUpgradable(ItemStack item, Enchant<?> enchant)
     {
         int level = getLevel(item, enchant);
-        System.out.println("upg: " + level);
-
-        System.out.println(level < enchant.getMaxLvl());
 
         return level < enchant.getMaxLvl();
     }
