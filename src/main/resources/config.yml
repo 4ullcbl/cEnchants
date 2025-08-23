@@ -65,6 +65,8 @@ enchants:
     chance: 2
     anvil_cost: 5
     min_table_level: 27
+    main_block: OBSIDIAN
+    second_block: BASALT
 
   greener:
     name: Озеленитель
@@ -110,9 +112,21 @@ enchants:
 
   detect:
     name: Детекция
-    chance: 1
+    chance: 11
     anvil_cost: 3
     min_table_level: 24
+    first:
+      effect_chance: 0.2 # Шанс выдачи эффекта при ударе
+      effect_duration: 2 # Длительность в секундах
+      effect_amplifier: 1 # уровень эффекта(мин: 1)
+    second:
+      effect_chance: 0.3
+      effect_duration: 3
+      effect_amplifier: 1
+    third:
+      effect_chance: 0.4
+      effect_duration: 4
+      effect_amplifier: 1
 
   poison:
     name: Яд

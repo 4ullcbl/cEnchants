@@ -1,8 +1,13 @@
-name: cEnchnats
+name: cEnchants
 version: '${project.version}'
-main: su.trident.cenchnats.CEnchants
+main: su.trident.cenchants.CEnchants
 api-version: '1.16'
 depend: [ WorldGuard ]
 commands:
   ce:
-    permission: trident-enchant
+    permission: trident.enchant
+    aliases:
+      - cenchants
+permissions:
+  trident.admin:
+    default: op
