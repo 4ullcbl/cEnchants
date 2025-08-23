@@ -18,6 +18,9 @@ public class Woodcutter extends Enchantment<BlockBreakEvent> implements BlockBre
     private final CEnchants plugin;
     private final String key;
 
+    private int firstMaxWood;
+    private int secondMaxWood;
+
     public Woodcutter(String key, CEnchants plugin)
     {
         super(key, plugin);
@@ -57,8 +60,18 @@ public class Woodcutter extends Enchantment<BlockBreakEvent> implements BlockBre
         boolean isFirstMode = hasEnchant(context.getTool(), 1);
 
         return isFirstMode
-                ? BlockUtil.findNearestBlock(context.getOriginBlock(), 1, 20)
-                : BlockUtil.findNearestBlock(context.getOriginBlock(), 1, 40);
+                ? BlockUtil.findNearestBlock(context.getOriginBlock(), 1, firstMaxWood)
+                : BlockUtil.findNearestBlock(context.getOriginBlock(), 1, secondMaxWood);
+    }
+
+    @Override
+    public void loadConfig()
+    {
+        loadConfigPath();
+        loadDefaultValue();
+
+        firstMaxWood = getConfig().getInt(getConfigPath() + "first.max_wood");
+        secondMaxWood = getConfig().getInt(getConfigPath() + "second.max_wood");
     }
 
     @Override

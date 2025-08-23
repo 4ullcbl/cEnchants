@@ -46,6 +46,10 @@ public class Magnet extends Enchantment<BlockBreakEvent> implements BlockBreakab
     private final String key;
     private final CEnchants plugin;
 
+    private Sound pickupSound;
+    private float yaw;
+    private float pitch;
+
     public Magnet(String key, CEnchants plugin)
     {
         super(key, plugin);
@@ -70,13 +74,29 @@ public class Magnet extends Enchantment<BlockBreakEvent> implements BlockBreakab
             }
         }
 
-        if (newDrop.size() != context.getDrops().size()) {
-            context.getPlayer().playSound(context.getPlayer().getEyeLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
-        }
+        playMagnetEffects(context, newDrop);
 
         context.getDrops().clear();
         context.getDrops().addAll(newDrop);
 
+    }
+
+    private void playMagnetEffects(BlockBreakContext context, List<ItemStack> newDrop)
+    {
+        if (newDrop.size() != context.getDrops().size()) {
+            context.getPlayer().playSound(context.getPlayer().getEyeLocation(), pickupSound, yaw, pitch);
+        }
+    }
+
+    @Override
+    public void loadConfig()
+    {
+        loadConfigPath();
+        loadDefaultValue();
+
+        pickupSound = Sound.valueOf(getConfig().getString(getConfigPath() + "sound.type"));
+        yaw = (float) getConfig().getDouble(getConfigPath() + "sound.yaw");
+        pitch = (float) getConfig().getDouble(getConfigPath() + "sound.pitch");
     }
 
     @Override

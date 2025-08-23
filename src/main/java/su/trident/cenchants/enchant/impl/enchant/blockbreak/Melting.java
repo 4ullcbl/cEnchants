@@ -24,6 +24,13 @@ public class Melting extends Enchantment<BlockBreakEvent> implements BlockBreaka
 
     private static final Map<Material, ItemStack> melted = new HashMap<>();
 
+    private Particle particleType;
+    private int count;
+    private double speed;
+    private double deltaX;
+    private double deltaY;
+    private double deltaZ;
+
     static {
         melted.put(Material.IRON_ORE, new ItemStack(Material.IRON_INGOT));
         melted.put(Material.GOLD_ORE, new ItemStack(Material.GOLD_INGOT));
@@ -70,8 +77,22 @@ public class Melting extends Enchantment<BlockBreakEvent> implements BlockBreaka
             if (block.getType() == Material.AIR || block.isEmpty() || BlockUtil.getUnbreakable().contains(block.getType()) || block.getType().isEmpty() || block.getType().isAir())
                 continue;
 
-            block.getWorld().spawnParticle(Particle.FLAME, BlockUtil.getCenter(block), 5, 0.028, 0.045, 0.045, 0.045);
+            block.getWorld().spawnParticle(particleType, BlockUtil.getCenter(block), count, speed, deltaX, deltaY, deltaZ);
         }
+    }
+
+    @Override
+    public void loadConfig()
+    {
+        loadConfigPath();
+        loadDefaultValue();
+
+        particleType = Particle.valueOf(getConfig().getString(getConfigPath() + "particle.type"));
+        count = getConfig().getInt(getConfigPath() + "particle.count");
+        speed = getConfig().getDouble(getConfigPath() + "particle.speed");
+        deltaX = getConfig().getDouble(getConfigPath() + "particle.delta_x");
+        deltaY = getConfig().getDouble(getConfigPath() + "particle.delta_y");
+        deltaZ = getConfig().getDouble(getConfigPath() + "particle.delta_z");
     }
 
     @Override

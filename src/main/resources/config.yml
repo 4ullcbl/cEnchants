@@ -10,7 +10,7 @@ update-check: true
 
 enchants:
 
-  jumper:
+  jumper: # Больше настроек в Премиум версии.
     name: Попрыгун
     chance: 10
     potion_effect: JUMP
@@ -18,35 +18,56 @@ enchants:
     anvil_cost: 3
     min_table_level: 27
 
-  bulldozer:
+  bulldozer: # Больше настроек в Премиум версии.
     name: Бульдозер
     chance: 7
     anvil_cost: 5
     min_table_level: 16
 
-  melting:
+  melting: # Больше настроек в Премиум версии.
     name: Авто-плавка
     chance: 10
     anvil_cost: 4
     min_table_level: 8
+    particle:
+      type: FLAME
+      count: 5
+      speed: 0.028
+      delta_x: 0.045
+      delta_z: 0.045
+      delta_y: 0.045
 
-  magnet:
+  magnet: # Больше настроек в Премиум версии.
     name: Магнит
     chance: 6
     anvil_cost: 3
     min_table_level: 8
+    sound:
+      type: ENTITY_ITEM_PICKUP
+      yaw: 1
+      pitch: 1
 
-  pinger:
+  pinger: # Больше настроек в Премиум версии.
     name: Пингер
     chance: 12
     anvil_cost: 2
     min_table_level: 4
 
-  web:
+  web: # Больше настроек в Премиум версии.
     name: Паутина
     chance: 4
     anvil_cost: 6
     min_table_level: 12
+    max_ores: 30 # Максимальное кол-во руды для добычи
+    particle:
+      type: FIREWORKS_SPARK
+      count: 1
+      speed: 0.2
+      delta_x: 0.03
+      delta_z: 0.03
+      delta_y: 0.03
+
+  # Больше настроек в Премиум версии. Покупка в: @TridentProduct
 
   mega_bulldozer:
     chance: 2
@@ -59,6 +80,10 @@ enchants:
     chance: 5
     anvil_cost: 4
     min_table_level: 16
+    first:
+      max_wood: 20
+    second:
+      max_wood: 40
 
   lavawalker:
     name: Лаваход
@@ -73,6 +98,14 @@ enchants:
     chance: 7
     anvil_cost: 1
     min_table_level: 16
+    upgrade_step: 1
+    particle:
+      type: VILLAGER_HAPPY
+      count: 6
+      speed: 0.3
+      delta_x: 0.5
+      delta_z: 0.3
+      delta_y: 0.05
 
   stupor:
     name: Ступор

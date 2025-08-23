@@ -9,12 +9,21 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import su.trident.cenchants.CEnchants;
 import su.trident.cenchants.enchant.EnchantmentTarget;
 import su.trident.cenchants.enchant.api.Enchantment;
+import su.trident.cenchants.util.block.BlockUtil;
 
 public class Greener extends Enchantment<PlayerInteractEvent>
 {
 
     private final String key;
     private final CEnchants plugin;
+
+    private Particle particleType;
+    private int count;
+    private double speed;
+    private double deltaX;
+    private double deltaY;
+    private double deltaZ;
+    private int upgradeStep;
 
     public Greener(String key, CEnchants plugin)
     {
@@ -39,21 +48,39 @@ public class Greener extends Enchantment<PlayerInteractEvent>
         if (!plugin.getWorldGuardUtil().canPlaceBlock(event.getPlayer(), event.getClickedBlock()))
             return;
 
-        ageable.setAge(ageable.getAge() + 1);
+        ageable.setAge(ageable.getAge() + upgradeStep);
         event.getClickedBlock().setBlockData(ageable);
 
         greenerVisual(event.getPlayer(), event.getClickedBlock());
     }
 
-    private void greenerVisual(Player player, Block block) {
+    private void greenerVisual(Player player, Block block)
+    {
         player.getWorld().spawnParticle(
-                Particle.VILLAGER_HAPPY,
-                block.getLocation().add(0.5, 0, 0.5),
-                6,
-                0.3, 0.5, 0.3,
-                0.05
+                particleType,
+                BlockUtil.getCenter(block),
+                count,
+                speed,
+                deltaX, deltaY, deltaZ
         );
         player.swingMainHand();
+    }
+
+    @Override
+    public void loadConfig()
+    {
+        loadConfigPath();
+        loadDefaultValue();
+
+        particleType = Particle.valueOf(getConfig().getString(getConfigPath() + "particle.type"));
+        count = getConfig().getInt(getConfigPath() + "particle.count");
+        speed = getConfig().getDouble(getConfigPath() + "particle.speed");
+        deltaX = getConfig().getDouble(getConfigPath() + "particle.delta_x");
+        deltaY = getConfig().getDouble(getConfigPath() + "particle.delta_y");
+        deltaZ = getConfig().getDouble(getConfigPath() + "particle.delta_z");
+
+        upgradeStep = getConfig().getInt(getConfigPath() + "upgrade_step");
+
     }
 
     @Override

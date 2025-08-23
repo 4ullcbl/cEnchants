@@ -26,8 +26,6 @@ public final class CEnchants extends JavaPlugin
     private EnchantmentStorage storage;
     private WorldGuardUtil worldGuardUtil;
 
-    private Listener[] listenersToRegister;
-
     @Override
     public void onLoad()
     {
@@ -40,7 +38,7 @@ public final class CEnchants extends JavaPlugin
         saveDefaultConfig();
         initializeUtilities();
 
-        getCommand("ce").setExecutor(new GiveEnchant(this));
+        getCommand("ce").setExecutor(new GiveEnchant(this, storage));
         registerListeners();
 
         final long launchTime = (System.currentTimeMillis() - start);
@@ -51,7 +49,7 @@ public final class CEnchants extends JavaPlugin
 
     private void registerListeners()
     {
-        listenersToRegister = new Listener[]{
+        Listener[] listenersToRegister = {
                 new BlockBreakListener(storage, worldGuardUtil),
                 new PrepareAnvilListener(storage),
                 new EnchantTableListener(storage),
@@ -72,7 +70,7 @@ public final class CEnchants extends JavaPlugin
 
     private ChatColor getColorFromLaunch(long launch)
     {
-        if (launch <= 6000) {
+        if (launch <= 5000) {
             return ChatColor.GREEN;
         } else if (launch <= 10000) {
             return ChatColor.GOLD;

@@ -67,6 +67,7 @@ public abstract class Enchantment<T extends Event> implements Listener
 
     public void loadConfig()
     {
+        loadConfigPath();
         loadDefaultValue();
     }
 

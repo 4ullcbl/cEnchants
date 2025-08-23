@@ -6,13 +6,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.trident.cenchants.CEnchants;
 import su.trident.cenchants.command.api.ArgumentExecutor;
 import su.trident.cenchants.command.impl.AddEnchant;
+import su.trident.cenchants.command.impl.ConfigReload;
 import su.trident.cenchants.command.impl.GiveBook;
 import su.trident.cenchants.enchant.api.Enchantment;
+import su.trident.cenchants.enchant.api.EnchantmentStorage;
 
 import java.util.*;
 
@@ -20,10 +22,11 @@ public class GiveEnchant implements CommandExecutor, TabExecutor
 {
     private final static Map<String, ArgumentExecutor> arguments = new HashMap<>();
 
-    public GiveEnchant(CEnchants plugin)
+    public GiveEnchant(JavaPlugin plugin, EnchantmentStorage storage)
     {
-        arguments.put("add", new AddEnchant(plugin));
-        arguments.put("book", new GiveBook(plugin));
+        arguments.put("add", new AddEnchant(storage));
+        arguments.put("book", new GiveBook(storage));
+        arguments.put("reload", new ConfigReload(plugin));
     }
 
     @Override

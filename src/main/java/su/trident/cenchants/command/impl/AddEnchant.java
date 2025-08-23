@@ -5,14 +5,15 @@ import org.bukkit.entity.Player;
 import su.trident.cenchants.CEnchants;
 import su.trident.cenchants.command.api.ArgumentExecutor;
 import su.trident.cenchants.enchant.api.Enchantment;
+import su.trident.cenchants.enchant.api.EnchantmentStorage;
 
-public class AddEnchant implements ArgumentExecutor
+public class AddEnchant extends ArgumentExecutor
 {
-    private final CEnchants plugin;
+    private final EnchantmentStorage storage;
 
-    public AddEnchant(CEnchants plugin)
+    public AddEnchant(EnchantmentStorage storage)
     {
-        this.plugin = plugin;
+        this.storage = storage;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class AddEnchant implements ArgumentExecutor
 
     private void addEnchant(Player player, Enchantment<?> enchantment, int level)
     {
-        plugin.getStorage().addEnchantSave(player.getInventory().getItemInMainHand(), enchantment, level);
+        storage.addEnchantSave(player.getInventory().getItemInMainHand(), enchantment, level);
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9&lcEnchants:&r&a успешно добавлен " + enchantment.getName()));
     }
 
@@ -70,11 +71,5 @@ public class AddEnchant implements ArgumentExecutor
             return true;
         }
         return false;
-    }
-
-    private void sendHelp(Player player)
-    {
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9cEnchants:&c используйте: %s".formatted(this.getUsage())));
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9cEnchants:&c &7описание: %s".formatted(this.getDesc())));
     }
 }

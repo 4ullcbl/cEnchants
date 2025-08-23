@@ -20,6 +20,15 @@ public class Web extends Enchantment<BlockBreakEvent> implements BlockBreakableE
     private final String key;
     private final CEnchants plugin;
 
+    private Particle particleType;
+    private int count;
+    private double speed;
+    private double deltaX;
+    private double deltaY;
+    private double deltaZ;
+
+    private int maxOres;
+
     public Web(String key, CEnchants plugin)
     {
         super(key, plugin);
@@ -33,7 +42,7 @@ public class Web extends Enchantment<BlockBreakEvent> implements BlockBreakableE
         if (!hasEnchant(context.getTool())) return;
         if (!BlockUtil.getOres().contains(context.getOriginBlock().getType())) return;
 
-        final List<Block> toBreak = BlockUtil.findNearestBlock(context.getOriginBlock(), 1, 30);
+        final List<Block> toBreak = BlockUtil.findNearestBlock(context.getOriginBlock(), 1, maxOres);
 
         if (toBreak == null) return;
 
@@ -59,8 +68,24 @@ public class Web extends Enchantment<BlockBreakEvent> implements BlockBreakableE
         for (Block block : context.getAffectedBlocks()) {
             if (block.getType() == Material.AIR || block.isEmpty() || BlockUtil.getUnbreakable().contains(block.getType()) || block.getType().isEmpty() || block.getType().isAir())
                 continue;
-            block.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, BlockUtil.getCenter(block), 1, 0.2, 0.03, 0.03, 0.03);
+            block.getWorld().spawnParticle(particleType, BlockUtil.getCenter(block), count, speed, deltaX, deltaY, deltaZ);
         }
+    }
+
+    @Override
+    public void loadConfig()
+    {
+        loadConfigPath();
+        loadDefaultValue();
+
+        maxOres = getConfig().getInt(getConfigPath() + "max_ores");
+
+        particleType = Particle.valueOf(getConfig().getString(getConfigPath() + "particle.type"));
+        count = getConfig().getInt(getConfigPath() + "particle.count");
+        speed = getConfig().getDouble(getConfigPath() + "particle.speed");
+        deltaX = getConfig().getDouble(getConfigPath() + "particle.delta_x");
+        deltaY = getConfig().getDouble(getConfigPath() + "particle.delta_y");
+        deltaZ = getConfig().getDouble(getConfigPath() + "particle.delta_z");
     }
 
     @Override
