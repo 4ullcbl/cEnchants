@@ -178,3 +178,9 @@ enchants:
     chance: 1
     anvil_cost: 3
     min_table_level: 27
+
+  experienced:
+    name: Опытный
+    chance: 4
+    anvil_cost: 3
+    min_table_level: 8

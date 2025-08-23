@@ -2,6 +2,7 @@ package su.trident.cenchants.enchant;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -15,6 +16,7 @@ import su.trident.cenchants.enchant.impl.enchant.attack.Detection;
 import su.trident.cenchants.enchant.impl.enchant.attack.Poison;
 import su.trident.cenchants.enchant.impl.enchant.attack.Vampiring;
 import su.trident.cenchants.enchant.impl.enchant.blockbreak.*;
+import su.trident.cenchants.enchant.impl.enchant.blockexp.Experienced;
 import su.trident.cenchants.enchant.impl.enchant.interact.Greener;
 import su.trident.cenchants.enchant.impl.enchant.itembreak.NotStable;
 import su.trident.cenchants.enchant.impl.enchant.itembreak.Ping;
@@ -42,6 +44,7 @@ public class EnchantmentRegister
     private final Enchantment<EntityDamageByEntityEvent> detection;
     private final Enchantment<EntityDamageByEntityEvent> poison;
     private final Enchantment<EntityDamageByEntityEvent> vamping;
+    private final Enchantment<BlockExpEvent> experienced;
 
     public EnchantmentRegister(CEnchants plugin)
     {
@@ -104,6 +107,9 @@ public class EnchantmentRegister
 
         this.notStable = new NotStable("not_stable", plugin);
         this.notStable.register();
+
+        this.experienced = new Experienced("experienced", plugin);
+        this.experienced.register();
     }
 
     public Enchantment<PlayerArmorChangeEvent> getJumper()
@@ -204,5 +210,10 @@ public class EnchantmentRegister
     public Enchantment<PlayerItemDamageEvent> getNotStable()
     {
         return notStable;
+    }
+
+    public Enchantment<BlockExpEvent> getExperienced()
+    {
+        return experienced;
     }
 }

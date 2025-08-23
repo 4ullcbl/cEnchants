@@ -2,11 +2,14 @@ package su.trident.cenchants.context.blockbreak;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchants.enchant.api.BlockBreakableEnchantment;
 import su.trident.cenchants.enchant.api.Enchantment;
@@ -42,7 +45,7 @@ public class BlockBreakListener implements Listener
         if (tool.getItemMeta() == null || tool.getType() == Material.AIR || !tool.hasItemMeta() || tool.getType().isEmpty())
             return;
 
-        final BlockBreakContext context = new BlockBreakContext(util, player, block, tool);
+        final BlockBreakContext context = new BlockBreakContext(util, player, block, tool, event.getExpToDrop());
         saveDrops(context, tool);
 
         final List<Enchantment<?>> enchantments = storage.getAll(tool);
@@ -62,6 +65,7 @@ public class BlockBreakListener implements Listener
         event.setCancelled(true);
 
         breakAllBlocks(context);
+        spawnExperienceOrb(event, context);
         dropLoot(context);
     }
 
@@ -86,6 +90,14 @@ public class BlockBreakListener implements Listener
             BlockUtil.spawnBreakParticle(affected);
             affected.setType(Material.AIR);
         }
+    }
+
+    private void spawnExperienceOrb(BlockExpEvent event, BlockBreakContext context) {
+        if (event.getExpToDrop() == 0 || !context.expDrop) return;
+
+        final ExperienceOrb orb = (ExperienceOrb) event.getBlock().getWorld().spawnEntity(event.getBlock().getLocation(), EntityType.EXPERIENCE_ORB);
+
+        orb.setExperience(event.getExpToDrop());
     }
 
     private void dropLoot(BlockBreakContext context)

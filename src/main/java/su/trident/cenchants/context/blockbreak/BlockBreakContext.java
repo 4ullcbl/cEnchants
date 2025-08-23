@@ -22,12 +22,15 @@ public class BlockBreakContext
     protected final List<Item> dropped = new ArrayList<>();
 
     protected int blockCount;
+    protected int expToDrop;
+    protected boolean expDrop;
 
-    public BlockBreakContext(WorldGuardUtil util, Player player, Block originBlock, ItemStack tool)
+    public BlockBreakContext(WorldGuardUtil util, Player player, Block originBlock, ItemStack tool, int expToDrop)
     {
         this.player = player;
         this.tool = tool;
         this.originBlock = originBlock;
+        this.expToDrop = expToDrop;
         if (util.canBreakBlock(player, this.originBlock)) {
             this.affectedBlocks.add(originBlock);
         }
@@ -67,5 +70,25 @@ public class BlockBreakContext
     public int getBlockCount()
     {
         return blockCount;
+    }
+
+    public int getExpToDrop()
+    {
+        return expToDrop;
+    }
+
+    public void setExpToDrop(int expToDrop)
+    {
+        this.expToDrop = expToDrop;
+    }
+
+    public boolean isExpDrop()
+    {
+        return expDrop;
+    }
+
+    public void setExpDrop(boolean expDrop)
+    {
+        this.expDrop = expDrop;
     }
 }
