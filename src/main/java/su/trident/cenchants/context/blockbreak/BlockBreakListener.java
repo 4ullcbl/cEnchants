@@ -48,7 +48,7 @@ public class BlockBreakListener implements Listener
         final BlockBreakContext context = new BlockBreakContext(util, player, block, tool, event.getExpToDrop());
         saveDrops(context, tool);
 
-        final List<Enchantment<?>> enchantments = storage.getAll(tool);
+        final List<Enchantment<?>> enchantments = storage.getEnchantmentList(tool);
 
         enchantments.sort(Comparator.comparingInt(Enchantment::getPriority));
 

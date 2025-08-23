@@ -10,7 +10,7 @@ update-check: true
 
 enchants:
 
-  jumper: # Больше настроек в Премиум версии.
+  jumper:
     name: Попрыгун
     chance: 10
     potion_effect: JUMP
@@ -18,26 +18,32 @@ enchants:
     anvil_cost: 3
     min_table_level: 27
 
-  bulldozer: # Больше настроек в Премиум версии.
+  bulldozer:
     name: Бульдозер
     chance: 7
     anvil_cost: 5
     min_table_level: 16
+    sensitivity:
+      vertical: 0.83
 
-  melting: # Больше настроек в Премиум версии.
+  melting:
     name: Авто-плавка
     chance: 10
     anvil_cost: 4
     min_table_level: 8
     particle:
       type: FLAME
-      count: 5
-      speed: 0.028
+      count: 3
+      speed: 0.03
       delta_x: 0.045
       delta_z: 0.045
       delta_y: 0.045
+    melted: # ЧТО_ПЛАВИТЬ: ЧТО_ПОЛУЧАТЬ
+      IRON_ORE: IRON_INGOT
+      GOLD_ORE: GOLD_INGOT
+      ANCIENT_DEBRIS: NETHERITE_SCRAP
 
-  magnet: # Больше настроек в Премиум версии.
+  magnet:
     name: Магнит
     chance: 6
     anvil_cost: 3
@@ -46,19 +52,40 @@ enchants:
       type: ENTITY_ITEM_PICKUP
       yaw: 1
       pitch: 1
+    magnitude:
+      - IRON_INGOT
+      - IRON_ORE
+      - DIAMOND
+      - DIAMOND_ORE
+      - GOLD_INGOT
+      - GOLD_ORE
+      - LAPIS_LAZULI
+      - LAPIS_ORE
+      - OBSIDIAN
+      - REDSTONE
+      - REDSTONE_ORE
+      - GLASS
+      - SAND
+      - EMERALD
+      - EMERALD_ORE
+      - COAL
+      - COAL_ORE
+      - ANCIENT_DEBRIS
+      - GOLD_NUGGET
+      - CHARCOAL
 
-  pinger: # Больше настроек в Премиум версии.
+  pinger:
     name: Пингер
     chance: 12
     anvil_cost: 2
     min_table_level: 4
 
-  web: # Больше настроек в Премиум версии.
+  web:
     name: Паутина
     chance: 4
     anvil_cost: 6
     min_table_level: 12
-    max_ores: 30 # Максимальное кол-во руды для добычи
+    max_ores: 30
     particle:
       type: FIREWORKS_SPARK
       count: 1
@@ -66,8 +93,6 @@ enchants:
       delta_x: 0.03
       delta_z: 0.03
       delta_y: 0.03
-
-  # Больше настроек в Премиум версии. Покупка в: @TridentProduct
 
   mega_bulldozer:
     chance: 2

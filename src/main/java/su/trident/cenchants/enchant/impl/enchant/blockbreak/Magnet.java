@@ -1,5 +1,6 @@
 package su.trident.cenchants.enchant.impl.enchant.blockbreak;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -15,33 +16,7 @@ import java.util.*;
 public class Magnet extends Enchantment<BlockBreakEvent> implements BlockBreakableEnchantment
 {
 
-    private static final List<Material> magnitude = new ArrayList<>();
-
-    static {
-        magnitude.add(Material.IRON_INGOT);
-        magnitude.add(Material.GOLD_INGOT);
-        magnitude.add(Material.IRON_ORE);
-        magnitude.add(Material.GOLD_ORE);
-        magnitude.add(Material.DIAMOND);
-        magnitude.add(Material.SAND);
-        magnitude.add(Material.DIAMOND_ORE);
-        magnitude.add(Material.LAPIS_ORE);
-        magnitude.add(Material.LAPIS_LAZULI);
-        magnitude.add(Material.COAL);
-        magnitude.add(Material.COAL_ORE);
-        magnitude.add(Material.ANCIENT_DEBRIS);
-        magnitude.add(Material.GLASS);
-        magnitude.add(Material.REDSTONE_ORE);
-        magnitude.add(Material.NETHER_GOLD_ORE);
-        magnitude.add(Material.EMERALD_ORE);
-        magnitude.add(Material.OAK_LOG);
-        magnitude.add(Material.SPRUCE_LOG);
-        magnitude.add(Material.BIRCH_LOG);
-        magnitude.add(Material.JUNGLE_LOG);
-        magnitude.add(Material.ACACIA_LOG);
-        magnitude.add(Material.DARK_OAK_LOG);
-        magnitude.add(Material.CHARCOAL);
-    }
+    protected static final List<Material> magnitude = new ArrayList<>();
 
     private final String key;
     private final CEnchants plugin;
@@ -97,11 +72,34 @@ public class Magnet extends Enchantment<BlockBreakEvent> implements BlockBreakab
         pickupSound = Sound.valueOf(getConfig().getString(getConfigPath() + "sound.type"));
         yaw = (float) getConfig().getDouble(getConfigPath() + "sound.yaw");
         pitch = (float) getConfig().getDouble(getConfigPath() + "sound.pitch");
+        clearMagnitude();
+        initMagnitude();
+    }
+
+    private void initMagnitude()
+    {
+        final List<String> configMagnitude = getConfig().getStringList(getConfigPath() + "magnitude");
+
+        configMagnitude.stream()
+                .map(String::trim)
+                .filter(str -> !str.isEmpty())
+                .forEach(materialName -> {
+                    try {
+                        magnitude.add(Material.valueOf(materialName.toUpperCase()));
+                        plugin.getLogger().info(ChatColor.DARK_GRAY + "DEBUG: magnet -> add value: " + materialName.toUpperCase());
+                    } catch (IllegalArgumentException e) {
+                        plugin.getLogger().info(ChatColor.RED + "DEBUG: magnet -> Неизвестный материал: " + materialName);
+                    }
+                });
     }
 
     @Override
     public void usage(BlockBreakEvent event)
     {
+    }
+
+    public static void clearMagnitude() {
+        magnitude.clear();
     }
 
     @Override

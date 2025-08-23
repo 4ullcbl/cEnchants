@@ -1,8 +1,10 @@
 package su.trident.cenchants.enchant.impl.enchant.blockbreak;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchants.CEnchants;
@@ -12,10 +14,7 @@ import su.trident.cenchants.enchant.api.BlockBreakableEnchantment;
 import su.trident.cenchants.enchant.api.Enchantment;
 import su.trident.cenchants.util.block.BlockUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Melting extends Enchantment<BlockBreakEvent> implements BlockBreakableEnchantment
 {
@@ -30,15 +29,6 @@ public class Melting extends Enchantment<BlockBreakEvent> implements BlockBreaka
     private double deltaX;
     private double deltaY;
     private double deltaZ;
-
-    static {
-        melted.put(Material.IRON_ORE, new ItemStack(Material.IRON_INGOT));
-        melted.put(Material.GOLD_ORE, new ItemStack(Material.GOLD_INGOT));
-        melted.put(Material.SAND, new ItemStack(Material.GLASS));
-        melted.put(Material.COBBLESTONE, new ItemStack(Material.STONE));
-        melted.put(Material.STONE, new ItemStack(Material.STONE));
-        melted.put(Material.OAK_LOG, new ItemStack(Material.CHARCOAL));
-    }
 
     public Melting(String key, CEnchants plugin)
     {
@@ -93,11 +83,44 @@ public class Melting extends Enchantment<BlockBreakEvent> implements BlockBreaka
         deltaX = getConfig().getDouble(getConfigPath() + "particle.delta_x");
         deltaY = getConfig().getDouble(getConfigPath() + "particle.delta_y");
         deltaZ = getConfig().getDouble(getConfigPath() + "particle.delta_z");
+        clearMelted();
+        loadMelted();
+    }
+
+    private void loadMelted() {
+        final ConfigurationSection section = getConfig().getConfigurationSection(getConfigPath() + "melted");
+
+        if (section != null) {
+            for (String keyName : section.getKeys(false)) {
+                putToMelted(keyName, section);
+                plugin.getLogger().info(ChatColor.DARK_GRAY + "DEBUG: melted put -> key: " + keyName + ", value: " + section.getString(keyName));
+            }
+        }
+    }
+
+    private void putToMelted(String keyName, ConfigurationSection section)
+    {
+        final String valueName = section.getString(keyName);
+
+        if (valueName == null) return;
+
+        final Material keyMaterial = Material.getMaterial(keyName.toUpperCase());
+        final ItemStack value = new ItemStack(Objects.requireNonNull(Material.getMaterial(valueName.toUpperCase())));
+
+        if (keyMaterial != null) {
+            melted.put(keyMaterial, value);
+        } else {
+            plugin.getLogger().info(ChatColor.RED + "melted -> Неверный материал: " + keyName + " -> " + valueName);
+        }
     }
 
     @Override
     public void usage(BlockBreakEvent event)
     {
+    }
+
+    public static void clearMelted() {
+        melted.clear();
     }
 
     @Override

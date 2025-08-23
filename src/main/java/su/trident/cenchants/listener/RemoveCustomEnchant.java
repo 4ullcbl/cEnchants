@@ -5,7 +5,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.inventory.ItemStack;
+import su.trident.cenchants.enchant.api.Enchantment;
 import su.trident.cenchants.enchant.api.EnchantmentStorage;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RemoveCustomEnchant implements Listener
 {
@@ -27,13 +32,16 @@ public class RemoveCustomEnchant implements Listener
 
         if (second != null && first != null && (first.getType() == second.getType())) {
             result = second.clone();
-            storage.removeEnchantAll(result, true);
+
+            storage.removeEnchantmentAll(result, true);
+
+            transferCurses(first, result);
             event.setResult(result);
         }
 
         if (first == null && second != null) {
             result = second.clone();
-            storage.removeEnchantAll(result, true);
+            storage.removeEnchantmentAll(result, true);
 
             event.setResult(result);
             return;
@@ -42,9 +50,34 @@ public class RemoveCustomEnchant implements Listener
         if (first == null) return;
 
         result = first.clone();
-        storage.removeEnchantAll(result, true);
+        storage.removeEnchantmentAll(result, true);
 
         event.setResult(result);
+    }
 
+    private void transferCurses(ItemStack toTransfer, ItemStack result)
+    {
+        final Map<Enchantment<?>, Integer> curses = getCurseEnchantment(toTransfer);
+        if (!curses.isEmpty()) {
+            curses.forEach((e, level) -> {
+                storage.addEnchantment(result, e, level);
+            });
+        }
+    }
+
+    /*private List<Enchantment<?>> getCurseEnchantmentList(ItemStack stack)
+    {
+        return storage.getEnchantmentList(stack).stream()
+                .filter(Enchantment::isCurse).toList();
+    }*/
+
+    private Map<Enchantment<?>, Integer> getCurseEnchantment(ItemStack stack)
+    {
+        return storage.getAll(stack).entrySet().stream()
+                .filter(entry -> entry.getKey().isCurse())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
     }
 }

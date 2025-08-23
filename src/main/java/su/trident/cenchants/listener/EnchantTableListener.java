@@ -25,7 +25,7 @@ public class EnchantTableListener implements Listener
         for (Enchantment<?> e : toAdd) {
             if (event.getExpLevelCost() < e.getMinTableLevel()) continue;
 
-            storage.addEnchantSave(event.getItem(), e, storage.getRandomLevel(e));
+            storage.addEnchantment(event.getItem(), e, storage.getRandomLevel(e));
         }
     }
 }

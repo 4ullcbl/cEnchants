@@ -18,9 +18,10 @@ import java.util.List;
 
 public class Bulldozer extends Enchantment<BlockBreakEvent> implements BlockBreakableEnchantment
 {
-
     private final String key;
     private final CEnchants plugin;
+
+    private double verticalSensitivity;
 
     public Bulldozer(String key, CEnchants plugin)
     {
@@ -97,13 +98,20 @@ public class Bulldozer extends Enchantment<BlockBreakEvent> implements BlockBrea
         return result;
     }
 
+    @Override
+    public void loadConfig()
+    {
+        loadDefaultValue();
+        verticalSensitivity = getConfig().getDouble(getConfigPath() + "sensitivity.vertical");
+    }
+
     private List<Block> bulldozerFirstBlockToBreak(Block center, Player player)
     {
 
         final List<Block> result = new ArrayList<>();
         final Vector direction = player.getLocation().getDirection().normalize();
 
-        boolean isLookingMostlyUpDown = Math.abs(direction.getY()) > 0.7;
+        final boolean isLookingMostlyUpDown = Math.abs(direction.getY()) > 0.85;
 
         if (isLookingMostlyUpDown) {
             for (int dx = -1; dx <= 1; dx++) {

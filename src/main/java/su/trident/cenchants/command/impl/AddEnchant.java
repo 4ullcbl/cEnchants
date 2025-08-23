@@ -60,7 +60,7 @@ public class AddEnchant extends ArgumentExecutor
 
     private void addEnchant(Player player, Enchantment<?> enchantment, int level)
     {
-        storage.addEnchantSave(player.getInventory().getItemInMainHand(), enchantment, level);
+        storage.addEnchantment(player.getInventory().getItemInMainHand(), enchantment, level);
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9&lcEnchants:&r&a успешно добавлен " + enchantment.getName()));
     }
 

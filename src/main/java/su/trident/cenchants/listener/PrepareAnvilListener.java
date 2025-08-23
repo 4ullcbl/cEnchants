@@ -27,7 +27,7 @@ public class PrepareAnvilListener implements Listener
         final AnvilInventory inventory = event.getInventory();
         if (!isCustomEnchantEvent(inventory)) return;
 
-        final List<Enchantment<?>> enchantsOnSecondItem = storage.getAll(inventory.getSecondItem());
+        final List<Enchantment<?>> enchantsOnSecondItem = storage.getEnchantmentList(inventory.getSecondItem());
         if (enchantsOnSecondItem.isEmpty()) return;
 
         final ItemStack result = Objects.requireNonNull(inventory.getFirstItem()).clone();
@@ -39,7 +39,7 @@ public class PrepareAnvilListener implements Listener
         int cost = 1;
 
         for (Enchantment<?> e: enchantsOnSecondItem) {
-            int level = storage.getLevelSave(inventory.getSecondItem(), e);
+            int level = storage.getLevel(inventory.getSecondItem(), e);
 
             if (!e.getTarget().isTarget(result.getType())) {
                 event.setResult(null);
@@ -48,7 +48,7 @@ public class PrepareAnvilListener implements Listener
 
             if (level == 0) return; // getLevelSave() возвращает 0 при отсутствии чара
 
-            storage.addEnchantSave(result, e, level);
+            storage.addEnchantment(result, e, level);
             cost += e.getAnvilCost() + level;
         }
 
