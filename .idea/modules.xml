@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/CEnchants.iml" filepath="$PROJECT_DIR$/CEnchants.iml" />
       <module fileurl="file://$PROJECT_DIR$/cEnchnats.iml" filepath="$PROJECT_DIR$/cEnchnats.iml" />
     </modules>
   </component>

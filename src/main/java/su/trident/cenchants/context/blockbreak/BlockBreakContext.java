@@ -4,7 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import su.trident.cenchants.util.worldguard.WorldGuardUtil;
+import su.trident.cenchants.worldguard.WorldGuardService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +25,7 @@ public class BlockBreakContext
     protected int expToDrop;
     protected boolean expDrop;
 
-    public BlockBreakContext(WorldGuardUtil util, Player player, Block originBlock, ItemStack tool, int expToDrop)
+    public BlockBreakContext(WorldGuardService util, Player player, Block originBlock, ItemStack tool, int expToDrop)
     {
         this.player = player;
         this.tool = tool;

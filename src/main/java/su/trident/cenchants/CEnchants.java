@@ -14,7 +14,7 @@ import su.trident.cenchants.github.UpdateCheck;
 import su.trident.cenchants.listener.EnchantTableListener;
 import su.trident.cenchants.listener.PrepareAnvilListener;
 import su.trident.cenchants.listener.RemoveCustomEnchant;
-import su.trident.cenchants.util.worldguard.WorldGuardUtil;
+import su.trident.cenchants.worldguard.WorldGuardService;
 
 import java.util.Arrays;
 
@@ -24,7 +24,7 @@ public final class CEnchants extends JavaPlugin
 
     private EnchantmentRegister register;
     private EnchantmentStorage storage;
-    private WorldGuardUtil worldGuardUtil;
+    private WorldGuardService worldGuardService;
 
     @Override
     public void onLoad()
@@ -44,12 +44,13 @@ public final class CEnchants extends JavaPlugin
         final long launchTime = (System.currentTimeMillis() - start);
 
         getLogger().info(getColorFromLaunch(launchTime) + "Запуск за " + launchTime + "мс.");
+        startUpdateCheck();
     }
 
     private void registerListeners()
     {
-        Listener[] listenersToRegister = {
-                new BlockBreakListener(storage, worldGuardUtil),
+        final Listener[] listenersToRegister = {
+                new BlockBreakListener(storage, worldGuardService),
                 new PrepareAnvilListener(storage),
                 new EnchantTableListener(storage),
                 new RemoveCustomEnchant(storage)
@@ -64,12 +65,12 @@ public final class CEnchants extends JavaPlugin
 
         register = new EnchantmentRegister(this);
         storage = new PDCEnchantmentStorage(this);
-        worldGuardUtil = new WorldGuardUtil(container);
+        worldGuardService = new WorldGuardService(container);
     }
 
     private ChatColor getColorFromLaunch(long launch)
     {
-        if (launch <= 5000) {
+        if (launch <= 6200) {
             return ChatColor.GREEN;
         } else if (launch <= 10000) {
             return ChatColor.GOLD;
@@ -96,9 +97,9 @@ public final class CEnchants extends JavaPlugin
         return storage;
     }
 
-    public WorldGuardUtil getWorldGuardUtil()
+    public WorldGuardService getWorldGuardUtil()
     {
-        return worldGuardUtil;
+        return worldGuardService;
     }
 
 }

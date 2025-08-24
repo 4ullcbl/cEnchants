@@ -1,4 +1,4 @@
-package su.trident.cenchants.util.config;
+package su.trident.cenchants.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -27,7 +27,7 @@ public class CustomConfig
         this.configuration = YamlConfiguration.loadConfiguration(configFile);
     }
 
-    public FileConfiguration getFile()
+    public FileConfiguration getConfig()
     {
         return configuration;
     }
@@ -36,7 +36,7 @@ public class CustomConfig
         try {
             configuration.save(configFile);
         } catch (IOException e) {
-            this.plugin.getLogger().severe("[#] Could not save config to " + configFile);
+            this.plugin.getLogger().info("[#] Could not save config to " + configFile);
         }
     }
 }

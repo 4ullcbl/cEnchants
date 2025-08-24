@@ -4,9 +4,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchants.CEnchants;
+import su.trident.cenchants.config.SoundLoader;
 import su.trident.cenchants.enchant.EnchantmentTarget;
 import su.trident.cenchants.enchant.api.Enchantment;
-import su.trident.cenchants.util.config.SoundLoad;
 import su.trident.cenchants.util.durability.DurabilityOptions;
 
 public class Ping extends Enchantment<PlayerItemDamageEvent>
@@ -14,7 +14,7 @@ public class Ping extends Enchantment<PlayerItemDamageEvent>
     private final String key;
     private final CEnchants plugin;
     private int percentToPing;
-    private SoundLoad effects;
+    private SoundLoader effects;
 
     public Ping(String key, CEnchants plugin)
     {
@@ -41,7 +41,7 @@ public class Ping extends Enchantment<PlayerItemDamageEvent>
     public void loadConfig()
     {
         loadDefaultValue();
-        effects = new SoundLoad(getConfig(), getConfigPath() + "sound");
+        effects = new SoundLoader(getConfig(), getConfigPath() + "sound", this.plugin);
         percentToPing = getConfig().getInt(getConfigPath() + "percent_to_ping");
     }
 

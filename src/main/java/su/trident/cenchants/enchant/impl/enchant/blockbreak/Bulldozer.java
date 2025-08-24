@@ -111,7 +111,7 @@ public class Bulldozer extends Enchantment<BlockBreakEvent> implements BlockBrea
         final List<Block> result = new ArrayList<>();
         final Vector direction = player.getLocation().getDirection().normalize();
 
-        final boolean isLookingMostlyUpDown = Math.abs(direction.getY()) > 0.85;
+        final boolean isLookingMostlyUpDown = Math.abs(direction.getY()) > verticalSensitivity;
 
         if (isLookingMostlyUpDown) {
             for (int dx = -1; dx <= 1; dx++) {

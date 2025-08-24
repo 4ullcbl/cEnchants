@@ -2,7 +2,6 @@ package su.trident.cenchants.command.impl;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import su.trident.cenchants.CEnchants;
 import su.trident.cenchants.command.api.ArgumentExecutor;
 import su.trident.cenchants.enchant.api.Enchantment;
 import su.trident.cenchants.enchant.api.EnchantmentStorage;

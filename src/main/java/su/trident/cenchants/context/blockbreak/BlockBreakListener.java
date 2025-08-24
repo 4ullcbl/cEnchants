@@ -16,7 +16,7 @@ import su.trident.cenchants.enchant.api.Enchantment;
 import su.trident.cenchants.enchant.api.EnchantmentStorage;
 import su.trident.cenchants.util.block.BlockUtil;
 import su.trident.cenchants.util.durability.DurabilityOptions;
-import su.trident.cenchants.util.worldguard.WorldGuardUtil;
+import su.trident.cenchants.worldguard.WorldGuardService;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,9 +25,9 @@ import java.util.List;
 public class BlockBreakListener implements Listener
 {
     private final EnchantmentStorage storage;
-    private final WorldGuardUtil util;
+    private final WorldGuardService util;
 
-    public BlockBreakListener(EnchantmentStorage storage, WorldGuardUtil util)
+    public BlockBreakListener(EnchantmentStorage storage, WorldGuardService util)
     {
         this.storage = storage;
         this.util = util;

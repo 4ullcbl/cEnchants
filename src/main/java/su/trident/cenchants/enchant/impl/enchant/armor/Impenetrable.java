@@ -1,15 +1,14 @@
 package su.trident.cenchants.enchant.impl.enchant.armor;
 
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import su.trident.cenchants.CEnchants;
+import su.trident.cenchants.config.SoundLoader;
 import su.trident.cenchants.enchant.EnchantmentTarget;
 import su.trident.cenchants.enchant.api.Enchantment;
-import su.trident.cenchants.util.config.SoundLoad;
 
 import java.util.Random;
 
@@ -24,7 +23,7 @@ public class Impenetrable extends Enchantment<EntityDamageEvent>
     private double protectionPerPiece;
     private double maxProtection;
     private double chanceToProtection;
-    private SoundLoad effects;
+    private SoundLoader effects;
 
     public Impenetrable(String key, CEnchants plugin)
     {
@@ -91,7 +90,7 @@ public class Impenetrable extends Enchantment<EntityDamageEvent>
         protectionPerPiece = getConfig().getDouble(getConfigPath() + "protection_piece");
         maxProtection = getConfig().getDouble(getConfigPath() + "max_protection");
         chanceToProtection = getConfig().getDouble(getConfigPath() + "chance_protection");
-        effects = new SoundLoad(getConfig(), getConfigPath() + "sound");
+        effects = new SoundLoader(getConfig(), getConfigPath() + "sound", plugin);
     }
 
     @Override
