@@ -146,7 +146,7 @@ A lightweight and highly configurable Spigot plugin that adds a set of powerful 
 
 ### 🔧 Установка
 
-1.  Скачайте последнюю версию `.jar` файла со страницы [Releases](https://github.com/YourUsername/YourRepo/releases).
+1.  Скачайте последнюю версию `.jar` файла со страницы [Releases](https://github.com/4ullcbl/cEnchants/releases).
 2.  Поместите файл `.jar` в папку `plugins/` вашего сервера.
 3.  Перезапустите сервер.
 4.  Настройте файл `config.yml` под свои нужды.
