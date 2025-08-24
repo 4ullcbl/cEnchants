@@ -71,7 +71,7 @@ A lightweight and highly configurable Spigot plugin that adds a set of powerful 
 
 ### 🔧 Installation
 
-1.  Download the latest `.jar` file from the [Releases](https://github.com/YourUsername/YourRepo/releases) page.
+1.  Download the latest `.jar` file from the [Releases](https://github.com/4ullcbl/cEnchants/releases) page.
 2.  Place the `.jar` file into your server's `plugins/` folder.
 3.  Restart your server.
 4.  Configure the `config.yml` file to your preferences.
