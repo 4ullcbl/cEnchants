@@ -8,7 +8,7 @@
 
 <div align="center">
 
-<img src="https://img.shields.io/badge/Version-1.0-blue.svg" alt="Version">
+<img src="https://img.shields.io/badge/Version-1.1.1-blue.svg" alt="Version">
 <img src="https://img.shields.io/badge/Spigot-1.16.5%2B-brightgreen.svg" alt="Spigot">
 <img src="https://img.shields.io/badge/WorldGuard-Supported-green.svg" alt="WorldGuard">
 
