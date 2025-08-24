@@ -4,12 +4,14 @@ import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import su.trident.cenchants.CEnchants;
 import su.trident.cenchants.enchant.api.Enchantment;
+import su.trident.cenchants.enchant.impl.enchant.armor.Impenetrable;
 import su.trident.cenchants.enchant.impl.enchant.armor.Jumper;
 import su.trident.cenchants.enchant.impl.enchant.armor.LavaWalker;
 import su.trident.cenchants.enchant.impl.enchant.attack.Detection;
@@ -45,6 +47,7 @@ public class EnchantmentRegister
     private final Enchantment<EntityDamageByEntityEvent> poison;
     private final Enchantment<EntityDamageByEntityEvent> vamping;
     private final Enchantment<BlockExpEvent> experienced;
+    private final Enchantment<EntityDamageEvent> impenetrable;
 
     public EnchantmentRegister(CEnchants plugin)
     {
@@ -110,6 +113,9 @@ public class EnchantmentRegister
 
         this.experienced = new Experienced("experienced", plugin);
         this.experienced.register();
+
+        this.impenetrable = new Impenetrable("impenetrable", plugin);
+        this.impenetrable.register();
     }
 
     public Enchantment<PlayerArmorChangeEvent> getJumper()

@@ -13,6 +13,7 @@ import su.trident.cenchants.command.api.ArgumentExecutor;
 import su.trident.cenchants.command.impl.AddEnchant;
 import su.trident.cenchants.command.impl.ConfigReload;
 import su.trident.cenchants.command.impl.GiveBook;
+import su.trident.cenchants.command.impl.RemoveEnchant;
 import su.trident.cenchants.enchant.api.Enchantment;
 import su.trident.cenchants.enchant.api.EnchantmentStorage;
 
@@ -27,6 +28,7 @@ public class GiveEnchant implements CommandExecutor, TabExecutor
         arguments.put("add", new AddEnchant(storage));
         arguments.put("book", new GiveBook(storage));
         arguments.put("reload", new ConfigReload(plugin));
+        arguments.put("remove", new RemoveEnchant(storage));
     }
 
     @Override
@@ -67,6 +69,8 @@ public class GiveEnchant implements CommandExecutor, TabExecutor
 
     private void sendHelp(Player player)
     {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&8<-----------Помощь---------->"));
+
         for (ArgumentExecutor argument : arguments.values()) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9cEnchants:&c используйте: %s".formatted(argument.getUsage())));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&9cEnchants:&c &7описание: %s".formatted(argument.getDesc())));        }

@@ -6,17 +6,17 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class SoundLoad
 {
     private final Sound sound;
-    private final double yaw;
-    private final double pitch;
+    private final int yaw;
+    private final int pitch;
     private final FileConfiguration config;
 
     public SoundLoad(FileConfiguration config, String configPath)
     {
         this.config = config;
 
-        this.sound = loadSound(config.getString(configPath) + "type");
-        this.yaw = config.getInt(configPath + "yaw");
-        this.pitch = config.getInt(configPath + "pitch");
+        this.sound = loadSound(config.getString(configPath + ".type"));
+        this.yaw = config.getInt(configPath + ".yaw");
+        this.pitch = config.getInt(configPath + ".pitch");
     }
 
     private Sound loadSound(String name) {
@@ -25,5 +25,20 @@ public class SoundLoad
         }
 
         return Sound.valueOf(name);
+    }
+
+    public Sound getSound()
+    {
+        return sound;
+    }
+
+    public int getYaw()
+    {
+        return yaw;
+    }
+
+    public int getPitch()
+    {
+        return pitch;
     }
 }

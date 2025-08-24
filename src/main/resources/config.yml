@@ -42,6 +42,8 @@ enchants:
       IRON_ORE: IRON_INGOT
       GOLD_ORE: GOLD_INGOT
       ANCIENT_DEBRIS: NETHERITE_SCRAP
+      SAND: GLASS_BLOCK
+
 
   magnet:
     name: Магнит
@@ -79,6 +81,11 @@ enchants:
     chance: 12
     anvil_cost: 2
     min_table_level: 4
+    percent_to_ping: 25
+    sound:
+      type: BLOCK_NOTE_BLOCK_BASS
+      yaw: 2
+      pitch: 2
 
   web:
     name: Паутина
@@ -209,3 +216,16 @@ enchants:
     chance: 4
     anvil_cost: 3
     min_table_level: 8
+
+  impenetrable:
+    name: Непробиваемый
+    chance: 5
+    anvil_cost: 5
+    min_table_level: 20
+    protection_piece: 0.05 # процент защиты на 1 часть брони! фулл сет -> 0.2 -> 20%
+    max_protection: 0.2 # максимальный процент защиты
+    chance_protection: 0.1 # Шанс защиты
+    sound:
+      type: ITEM_SHIELD_BLOCK
+      yaw: 1
+      pitch: 1

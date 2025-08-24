@@ -8,6 +8,7 @@ commands:
     permission: trident.enchant
     aliases:
       - cenchants
+      - sre
 permissions:
   trident.admin:
     default: op

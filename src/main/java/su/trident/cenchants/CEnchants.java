@@ -44,7 +44,6 @@ public final class CEnchants extends JavaPlugin
         final long launchTime = (System.currentTimeMillis() - start);
 
         getLogger().info(getColorFromLaunch(launchTime) + "Запуск за " + launchTime + "мс.");
-        startUpdateCheck();
     }
 
     private void registerListeners()
